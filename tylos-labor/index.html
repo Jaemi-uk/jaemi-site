@@ -28,7 +28,7 @@ input,select{font:inherit;color:inherit;border:1px solid #cfd7df;border-radius:7
 input[type=date]{padding:8px 10px;font-size:15px}input.xs{width:70px}input.sm{width:120px}input.num{width:90px;text-align:right}input.search{width:240px}
 .drop{display:flex;align-items:center;gap:12px;padding:16px;border:2px dashed #c3cdd7;border-radius:9px;cursor:pointer;color:var(--muted);transition:.15s}.drop:hover,.drop.over{border-color:var(--teal);background:#f0faf8;color:var(--ink)}.drop input{display:none}.drop svg{width:26px;height:26px;flex:none;color:var(--teal)}.drop.slim{padding:10px 14px}
 .wbline{margin:8px 0 0}.pill{display:inline-block;padding:1px 8px;border-radius:20px;background:#eef2f5;color:var(--muted);font-size:11.5px}.pill.ok{background:var(--okbg);color:var(--ok)}
-.quick{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.chip{border:1px solid #cfd7df;background:#fff;border-radius:20px;padding:4px 10px;font:inherit;font-size:12.5px;cursor:pointer}.chip:hover{border-color:var(--teal);color:var(--teal)}.chip.sm{padding:2px 8px}
+.quick{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.chip{border:1px solid #cfd7df;background:#fff;border-radius:20px;padding:4px 10px;font:inherit;font-size:12.5px;cursor:pointer}.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}.alert.sm{padding:4px 10px;margin:0}.chip:hover{border-color:var(--teal);color:var(--teal)}.chip.sm{padding:2px 8px}
 .btn{display:inline-flex;align-items:center;gap:7px;border:1px solid #c6d0da;background:#fff;color:var(--ink);border-radius:8px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}.btn:hover{border-color:var(--teal)}
 .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}.btn.primary:hover{background:#0b6a63}.btn.ghost{background:transparent}.btn.sm{padding:5px 10px;font-size:12.5px}.btn.wide{width:100%;justify-content:center;padding:11px}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.danger{color:var(--err);border-color:#f0c4c0}
 .top .btn.ghost{color:#c9d6e2;border-color:rgba(255,255,255,.25)}.icon{border:0;background:transparent;cursor:pointer;color:var(--muted);padding:4px;border-radius:6px;font-size:15px}.icon:hover{background:#eef2f5;color:var(--err)}
@@ -657,6 +657,135 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
     return wb.save();
   };
 
+
+  /* ---------- sheet surgery for agency templates ---------- */
+  Sheet.prototype.unshareAll = function () {
+    const idx = this._sharedIndex();
+    for (const [si, e] of idx) {
+      if (!e.master) continue;
+      const m0 = splitRef(e.master.ref);
+      const mc = this.rawCell(e.master.ref);
+      mc.inner = mc.inner.replace(/<f\b[^>]*?>([\s\S]*?)<\/f>/, (m, f) => '<f>' + f + '</f>');
+      this._touch(m0.row);
+      for (const ch of e.children) {
+        const p = splitRef(ch); const cc = this.rawCell(ch); if (!cc) continue;
+        cc.inner = cc.inner.replace(/<f\b[^>]*?(?:\/>|>[\s\S]*?<\/f>)/, '<f>' + escXml(shiftFormula(e.master.formula, p.row - m0.row, p.c - m0.c)) + '</f>');
+        this._touch(p.row);
+      }
+    }
+    this._shared = new Map();
+  };
+  const shiftRowsIn = (text, at, n) => text.split('"').map((seg, i) => i % 2 ? seg : seg.replace(/(^|[^A-Za-z0-9_.])(\$?)([A-Z]{1,3})(\$?)(\d{1,7})(?![A-Za-z0-9_(])/g,
+    (m, pre, dc, col, dr, row) => pre + dc + col + dr + (+row >= at ? +row + n : row))).join('"');
+  TL.shiftRowsIn = shiftRowsIn;
+  /* Insert n rows before row `at`, copying row `at`'s look and formulas into the new rows. */
+  Sheet.prototype.insertRowsBefore = function (at, n, fromRow = at) {
+    if (n <= 0) return;
+    const tpl = this.rows.get(fromRow); const tplCells = tpl ? [...this._cells(tpl)].map(([c, x]) => [c, { attrs: x.attrs, inner: x.inner }]) : [];
+    const tplAttrs = tpl ? tpl.attrs : ` r="${at}"`;
+    // move rows down
+    const moved = new Map(); const order = [];
+    for (const r of this.rowOrder) {
+      const R = this.rows.get(r); const cells = this._cells(R);
+      const nr = r >= at ? r + n : r;
+      R.attrs = R.attrs.replace(/\br="\d+"/, `r="${nr}"`);
+      const nc = new Map();
+      for (const [col, c] of cells) {
+        c.attrs = c.attrs.replace(/\br="[A-Z]+\d+"/, `r="${col}${nr}"`);
+        c.inner = c.inner.replace(/<f>([\s\S]*?)<\/f>/, (m, f) => '<f>' + escXml(shiftRowsIn(unescXml(f), at, n)) + '</f>');
+        nc.set(col, c);
+      }
+      R.cells = nc; R.dirtyRow = true; moved.set(nr, R); order.push(nr);
+    }
+    this.rows = moved; this.rowOrder = order;
+    for (let k = 0; k < n; k++) {
+      const r = at + k; const R = this._ensureRow(r); R.attrs = tplAttrs.replace(/\br="\d+"/, `r="${r}"`); R.cells = new Map();
+      for (const [col, c] of tplCells) {
+        let inner = c.inner.replace(/<v>[\s\S]*?<\/v>/, '');
+        inner = inner.replace(/<f>([\s\S]*?)<\/f>/, (m, f) => '<f>' + escXml(shiftFormula(unescXml(f), r - fromRow, 0)) + '</f>');
+        R.cells.set(col, { attrs: c.attrs.replace(/\br="[A-Z]+\d+"/, `r="${col}${r}"`).replace(/\s+t="(?:s|str|inlineStr)"/, ''), inner: /<f>/.test(inner) ? inner : (/<v>/.test(c.inner) && !/t="(s|str|inlineStr)"/.test(c.attrs) ? c.inner : '') });
+      }
+      R.dirtyRow = true;
+    }
+    this.rowOrder.sort((a, b) => a - b);
+    const sh = t => shiftRowsIn(t, at, n);
+    this.tail = this.tail.replace(/(<mergeCell ref=")([^"]+)(")/g, (m, a, r, b) => a + sh(r) + b).replace(/(sqref=")([^"]+)(")/g, (m, a, r, b) => a + sh(r) + b)
+      .replace(/<formula>([\s\S]*?)<\/formula>/g, (m, f) => '<formula>' + sh(f) + '</formula>');
+    this.head = this.head.replace(/(<dimension ref=")([^"]+)(")/, (m, a, r, b) => a + sh(r) + b);
+    this.dirty = true; this.insertedAt = (this.insertedAt || []).concat([[at, n]]);
+  };
+
+  /* Detect agency template sections: header rows (text in C, SUM in K) and their data rows. */
+  TL.agencyLayout = function (sh) {
+    let nameRow = null, dateRow = null, totalRow = null; const heads = [];
+    for (const r of sh.rowNumbers()) {
+      const b = String(sh.value('B' + r) || '').trim().toUpperCase();
+      if (!nameRow && b === 'NAME') nameRow = r;
+      const c8 = sh.value('C' + r); if (!nameRow && typeof c8 === 'number' && c8 > 40000) dateRow = r;
+      if (!nameRow) continue;
+      const c = sh.value('C' + r); const k = sh.cell('K' + r); const j = sh.cell('J' + r);
+      if (typeof c === 'string' && c.trim() && k && k.f && /^SUM\(/i.test(k.f.trim())) heads.push({ label: c.trim().replace(/\s+/g, ' '), headRow: r });
+      if (j && j.f && /^SUM\(J\d+:J\d+\)$/i.test(j.f.replace(/\s/g, '')) && heads.length) { totalRow = r; break; }
+    }
+    if (!nameRow || !heads.length || !totalRow) throw new Error('Timesheet layout not recognised (need a NAME header, section rows like "WAREHOUSE 12.71", and a total row).');
+    heads.forEach((h, i) => { h.first = h.headRow + 1; h.last = (i + 1 < heads.length ? heads[i + 1].headRow : totalRow) - 1; h.capacity = h.last - h.first + 1; });
+    return { nameRow, dateRow, totalRow, sections: heads };
+  };
+  TL.agencySectionLabels = async function (bytes) {
+    const wb = await Workbook.open(bytes); const sh = await wb.sheet(wb.sheetList[0].name); return TL.agencyLayout(sh).sections.map(s => s.label);
+  };
+  /* Fill ONLY names (B) and daily hours (C–I) + week dates. people: [{name, days[7], section}] */
+  TL.fillAgency = async function (tplBytes, mondayIso, people) {
+    const wb = await Workbook.open(tplBytes); const sh = await wb.sheet(wb.sheetList[0].name);
+    sh.unshareAll();
+    let L = TL.agencyLayout(sh);
+    const norm = x => String(x || '').toUpperCase().replace(/\s+/g, ' ').trim();
+    const bySec = new Map(L.sections.map(s => [s.label, []]));
+    const unplaced = [];
+    for (const p of people) { const s = L.sections.find(x => norm(x.label) === norm(p.section)) || L.sections[0]; if (norm(s.label) !== norm(p.section)) unplaced.push(p.name); bySec.get(s.label).push(p); }
+    // grow sections bottom-up
+    for (const s of [...L.sections].reverse()) { const need = bySec.get(s.label).length - s.capacity; if (need > 0) sh.insertRowsBefore(s.last, need, s.first < s.last ? s.first : s.last); }
+    let added = 0; for (const s of L.sections) added += Math.max(0, bySec.get(s.label).length - s.capacity);
+    L = TL.agencyLayout(sh);
+    if (added) {
+      for (const s of L.sections) { for (const c of ['K', 'Q']) { const x = sh.cell(c + s.headRow); if (x && x.f && /^SUM\(/i.test(x.f.trim())) sh.set(c + s.headRow, { f: `SUM(${c}${s.first}:${c}${s.last})` }); } }
+      sh.set('J' + L.totalRow, { f: `SUM(J${L.sections[0].headRow}:J${L.totalRow - 1})` });
+    }
+    const cols = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+    for (const s of L.sections) {
+      const list = bySec.get(s.label) || [];
+      for (let r = s.first; r <= s.last; r++) {
+        const p = list[r - s.first];
+        for (const c of cols) sh.set(c + r, null);
+        if (!p) continue;
+        sh.set('B' + r, { s: p.name });
+        p.days.forEach((h, k) => { if (h) sh.set(cols[k + 1] + r, { v: h }); });
+      }
+    }
+    // week dates
+    const days = ['C', 'D', 'E', 'F', 'G', 'H', 'I'];
+    if (L.dateRow) days.forEach((c, k) => sh.set(c + L.dateRow, { v: TL.isoToSerial(TL.addDays(mondayIso, k)) }));
+    for (const r of sh.rowNumbers()) {
+      if (r >= L.nameRow) break;
+      const lab = String(sh.value('D' + r) || '').toUpperCase();
+      const isStart = /WEEK COMMENCING/.test(lab), isEnd = /WEEK ENDING/.test(lab); if (!isStart && !isEnd) continue;
+      const iso = isStart ? mondayIso : TL.addDays(mondayIso, 6); const cur = sh.cell('J' + r);
+      if (cur && cur.f) continue; // formula like =J4+6 recalculates itself
+      if (cur && typeof cur.value === 'string') sh.set('J' + r, { s: TL.fmtDMY(iso, '.') }); else sh.set('J' + r, { v: TL.isoToSerial(iso) });
+    }
+    // drop stale cached results so Excel / Sheets / LibreOffice all recalculate the totals
+    for (const r of sh.rowNumbers()) { const R = sh.rows.get(r); for (const [, c] of sh._cells(R)) if (c.inner.indexOf('<f') >= 0 && c.inner.indexOf('<v>') >= 0) { c.inner = c.inner.replace(/<v>[\s\S]*?<\/v>/, ''); c.attrs = c.attrs.replace(/\s+t="(?:str|e|n|b)"/, ''); R.dirtyRow = true; sh.dirty = true; } }
+    if (sh.insertedAt) {
+      for (const [at, n] of sh.insertedAt) {
+        wb.workbookXml = wb.workbookXml.replace(/(<definedName[^>]*Print_Area[^>]*>)([^<]*)(<)/, (m, a, r, b) => a + TL.shiftRowsIn(r, at, n) + b);
+        for (const name of wb.zip.order.filter(x => /^xl\/drawings\/drawing\d+\.xml$/.test(x))) {
+          const x = await wb.zip.text(name); wb.zip.setText(name, x.replace(/<xdr:row>(\d+)<\/xdr:row>/g, (m, v) => `<xdr:row>${+v + 1 >= at ? +v + n : v}</xdr:row>`));
+        }
+      }
+    }
+    const bytes = await wb.save();
+    return { bytes, added, unplaced, sections: L.sections.map(s => ({ label: s.label, rows: s.capacity, used: (bySec.get(s.label) || []).length })) };
+  };
   G.TL = TL;
 })(typeof window !== 'undefined' ? window : globalThis);
 </script>
@@ -904,6 +1033,27 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
     return { kept, reused, diff };
   };
 })(typeof window !== 'undefined' ? window : globalThis);
+
+/* Weekly people per agency group (names + daily hours only) */
+(function (G) {
+  const TL = G.TL;
+  TL.weekAgencyPeople = async function (wb, settings, mondayIso) {
+    const pat = settings.sheets.daily;
+    const find = iso => { const want = pat.replace('{YYYY}', iso.slice(0, 4)).trim().toLowerCase(); return wb.findSheetName(x => x.trim().toLowerCase() === want) || wb.findSheetName(x => x.trim().toLowerCase().startsWith(want)); };
+    const name = find(mondayIso) || find(TL.addDays(mondayIso, 6)); if (!name) throw new Error('Daily Record sheet not found for that week.');
+    const sh = await wb.sheet(name); const people = TL.readWeek(sh, TL.findDailyBlocks(sh), mondayIso);
+    const byNorm = new Map(); for (const p of settings.roster) { if (!byNorm.has(TL.normName(p.display))) byNorm.set(TL.normName(p.display), p); if (!byNorm.has(TL.normName(p.name))) byNorm.set(TL.normName(p.name), p); }
+    const out = {}; for (const g of ['Air', 'Insight']) out[g] = [];
+    for (const p of people.values()) {
+      const g = ['Air', 'Insight'].find(x => x.toLowerCase() === p.role.toLowerCase()); if (!g) continue;
+      const ros = byNorm.get(TL.normName(p.name));
+      const days = [0, 1, 2, 3, 4, 5, 6].map(d => p.days[TL.addDays(mondayIso, d)] || 0);
+      out[g].push({ name: p.name, days, total: days.reduce((a, b) => a + b, 0), section: ros ? ros.agencyRole : '', ros });
+    }
+    for (const g in out) out[g].sort((a, b) => a.name.localeCompare(b.name));
+    return out;
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
 </script>
 <script>window.TL_DEFAULTS={
  "version": 1,
@@ -1120,13 +1270,21 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
   };
 
   /* ================= OUTPUT ================= */
+  function bytesToB64(u) { let bin = ''; for (let i = 0; i < u.length; i += 0x8000) bin += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(bin); }
+  async function applySettingsFile(j) {
+    const tpls = j.agencyTemplates || {}; if (j.agencyTemplate) tpls.Insight = tpls.Insight || j.agencyTemplate;
+    delete j.agencyTemplates; delete j.agencyTemplate;
+    if (!j.pwHash) j.pwHash = S.pwHash;
+    S = j; saveSettings();
+    for (const g of Object.keys(tpls)) if (tpls[g] && tpls[g].b64) await idb.set(tplKey(g), { name: tpls[g].name, savedAt: Date.now(), bytes: b64ToBytes(tpls[g].b64) });
+  }
   function firstRunBanner() {
     if (S.roster.length) return '';
-    return `<div class="alert warn first">${ICON.warn}<div><b>First time on this computer?</b> Import the <b>Tylos starter settings</b> file (staff list, rates and agency template) so the site knows your people. <label class="btn sm">${ICON.up} Import starter settings<input type="file" id="starterI" accept=".json" hidden></label></div></div>`;
+    return `<div class="alert warn first">${ICON.warn}<div><b>First time on this computer?</b> Import the <b>Tylos starter settings</b> file (staff list, rates and the Air / Insight timesheet templates) so the site knows your people. <label class="btn sm">${ICON.up} Import starter settings<input type="file" id="starterI" accept=".json" hidden></label></div></div>`;
   }
   function bindStarter() {
     const i = $('#starterI'); if (!i) return;
-    i.onchange = async () => { const f = i.files[0]; if (!f) return; try { const j = JSON.parse(await readText(f)); if (!j.roster || !j.profiles) throw new Error('Not a Tylos Labour settings file.'); const tpl = j.agencyTemplate; delete j.agencyTemplate; if (!j.pwHash) j.pwHash = S.pwHash; S = j; saveSettings(); if (tpl && tpl.b64) await idb.set('agencyTemplate', { name: tpl.name, savedAt: Date.now(), bytes: b64ToBytes(tpl.b64) }); toast(`Starter settings imported: ${S.roster.length} staff, ${S.rates.length} rates.`); render(); } catch (e) { toast(esc(e.message), 'err'); } };
+    i.onchange = async () => { const f = i.files[0]; if (!f) return; try { const j = JSON.parse(await readText(f)); if (!j.roster || !j.profiles) throw new Error('Not a Tylos Labour settings file.'); await applySettingsFile(j); toast(`Starter settings imported: ${S.roster.length} staff, ${S.rates.length} rates.`); render(); } catch (e) { toast(esc(e.message), 'err'); } };
   }
   function renderOutput(m) {
     const saved = st.wbSaved;
@@ -1291,7 +1449,7 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
       ${probs.length ? `<div class="alert warn">${ICON.warn}<div><b>${probs.length} item(s) to check</b><ul>${probs.slice(0, 8).map(p => `<li>${esc(p)}</li>`).join('')}${probs.length > 8 ? `<li>… and ${probs.length - 8} more</li>` : ''}</ul></div></div>` : `<p class="ok-line">${ICON.check} All included rows have complete times.</p>`}
       ${!haveWb ? `<div class="alert err">${ICON.warn}<div>Upload the Labour time sheet &amp; task record in step 3 (no saved copy in this browser yet).</div></div>` : ''}</div>
       <div class="gen-btns"><button class="btn primary" id="genWb" ${haveWb ? '' : 'disabled'}>${ICON.down} Update Labour time sheet &amp; task record</button>
-      <button class="btn" id="goAgency">${ICON.week} Weekly agency timesheets →</button></div></div>`;
+      <button class="btn" id="goAgency" title="On demand — usually Monday morning for last week">${ICON.week} Agency timesheets (on demand) →</button></div></div>`;
     $('#genWb').onclick = () => generateWorkbook(probs);
     $('#goAgency').onclick = () => { st.tab = 'agency'; st.week = TL.mondayOf(st.date); render(); };
   }
@@ -1326,47 +1484,62 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
   }
 
   /* ================= AGENCY ================= */
+  const AG = ['Air', 'Insight'];
+  const tplKey = g => 'agencyTemplate:' + g;
+  async function getTemplate(g) { return (await idb.get(tplKey(g))) || (g === 'Insight' ? await idb.get('agencyTemplate') : null); }
+  const yymmdd = iso => iso.slice(2, 4) + '.' + iso.slice(5, 7) + '.' + iso.slice(8, 10);
+  const agencyFileName = (g, mon) => g === 'Air' ? `Air_Timesheet_TYLOS_WC_${yymmdd(mon)}-${yymmdd(TL.addDays(mon, 6))}.xlsx` : `${g}_Timesheet_${TL.fmtDMY(mon, '.')}-${TL.fmtDMY(TL.addDays(mon, 6), '.')}_warehouse_time_sheet.xlsx`;
   async function renderAgency(m) {
     const mon = st.week || TL.mondayOf(TL.addDays(new Date().toISOString().slice(0, 10), -7));
     st.week = mon;
     const haveWb = st.wb || st.wbSaved;
-    m.innerHTML = `<div class="card"><div class="card-h"><div><h2>Weekly agency timesheets</h2><p class="muted small">Every Monday: pick last week, check the hours, download one file per agency. Hours come from the Daily Record (after break deduction) in the ${st.wb ? 'uploaded' : 'saved'} workbook.</p></div></div>
+    m.innerHTML = firstRunBanner() + `<div class="card"><div class="card-h"><div><h2>Weekly agency timesheets <span class="pill">on demand</span></h2><p class="muted small">Every Monday morning: choose last week, check, download. Only <b>names (column B)</b> and <b>daily hours (C–I)</b> are filled, plus the week dates — rates, totals and signatures stay exactly as in each agency's own template. Hours come from the Daily Record (after break) in the ${st.wb ? 'uploaded' : 'saved'} workbook.</p></div></div>
       <div class="row gap"><label class="fld"><span>Week commencing (Monday)</span><input type="date" id="wkI" value="${mon}"></label>
-      <div class="quick">${[1, 2].map(n => { const d = TL.mondayOf(TL.addDays(new Date().toISOString().slice(0, 10), -7 * n)); return `<button class="chip" data-w="${d}">w/c ${TL.fmtDMY(d)}</button>`; }).join('')}</div>
-      <span class="muted small">${TL.fmtDMY(mon)} – ${TL.fmtDMY(TL.addDays(mon, 6))}</span></div>
-      <p class="small muted">Overtime rule: <b>${S.agency.otMode === 'none' ? 'none — all hours standard' : S.agency.otMode === 'weekly' ? `hours over ${S.agency.otWeekly} per week` : `hours over ${S.agency.otDaily} per day`}</b> · Rates: <b>${S.agency.rateSource === 'section' ? 'template section rate' : 'Pay rates list'}</b> · <a href="#" id="toAgSet">change in Setup</a></p>
+      <div class="quick">${[1, 2, 3].map(n => { const d = TL.mondayOf(TL.addDays(new Date().toISOString().slice(0, 10), -7 * n)); return `<button class="chip ${d === mon ? 'on' : ''}" data-w="${d}">${n === 1 ? 'Last week · ' : ''}w/c ${TL.fmtDMY(d)}</button>`; }).join('')}</div>
+      <span class="muted small">${new Date(mon + 'T12:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })} – ${new Date(TL.addDays(mon, 6) + 'T12:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span></div>
       ${haveWb ? '' : '<div class="alert err">Upload the workbook on the Daily output tab first.</div>'}
       <div id="agPrev"><p class="muted">Loading…</p></div></div>`;
-    $('#wkI').onchange = e => { st.week = TL.mondayOf(e.target.value); renderAgency(m); };
+    $('#wkI').onchange = e => { if (e.target.value) { st.week = TL.mondayOf(e.target.value); renderAgency(m); } };
     $$('[data-w]').forEach(b => b.onclick = () => { st.week = b.dataset.w; renderAgency(m); });
-    $('#toAgSet').onclick = e => { e.preventDefault(); st.tab = 'setup'; st.setup = 'agency'; render(); };
+    bindStarter();
     if (!haveWb) { $('#agPrev').innerHTML = ''; return; }
     try {
-      const wb = await TL.Workbook.open(await currentWorkbookBytes());
-      const data = await TL.weekAgencyData(wb, S, mon);
+      const wb = await openCurrentWb();
+      const data = await TL.weekAgencyPeople(wb, S, mon);
       const days = [0, 1, 2, 3, 4, 5, 6].map(d => TL.addDays(mon, d));
-      $('#agPrev').innerHTML = Object.entries(data).map(([g, sec]) => {
-        const all = [...sec.warehouse.map(p => ['Warehouse', p]), ...sec.flt.map(p => ['FLT', p])];
-        const tot = all.reduce((a, [, p]) => a + p.total, 0);
-        return `<div class="agency"><div class="card-h"><h3>${esc(g)} <span class="muted small">${all.length} people · ${fmtH(tot)} h</span></h3><button class="btn primary sm" data-dl="${esc(g)}" ${all.length ? '' : 'disabled'}>${ICON.down} Download ${esc(g)} timesheet</button></div>
-        <div class="tbl-wrap"><table class="grid"><thead><tr><th>Name</th><th>Role</th>${days.map(d => `<th class="r">${new Date(d + 'T12:00').toLocaleDateString('en-GB', { weekday: 'short' })}<br><small>${TL.fmtDMY(d).slice(0, 5)}</small></th>`).join('')}<th class="r">Total</th><th class="r">Std</th><th class="r">OT</th><th class="r">Rate</th><th class="r">OT rate</th><th class="r">Cost</th></tr></thead>
-        <tbody>${all.map(([role, p]) => `<tr><td>${esc(p.name)}</td><td>${role}</td>${p.days.map(h => `<td class="r">${h ? fmtH(h) : ''}</td>`).join('')}<td class="r"><b>${fmtH(p.total)}</b></td><td class="r">${fmtH(p.total - p.otHours)}</td><td class="r">${p.otHours ? fmtH(p.otHours) : ''}</td><td class="r">${p.normal != null ? (+p.normal).toFixed(2) : '<span class="muted">tmpl</span>'}</td><td class="r">${p.ot != null ? (+p.ot).toFixed(2) : ''}</td><td class="r">${p.normal != null ? '£' + (((p.total - p.otHours) * p.normal) + p.otHours * (p.ot ?? p.normal)).toFixed(2) : ''}</td></tr>`).join('') || `<tr><td colspan="15" class="muted c">No ${esc(g)} hours in the Daily Record for this week.</td></tr>`}</tbody></table></div></div>`;
-      }).join('') + `<p class="small muted">Not right? Fix the day on the Daily output tab (or in the workbook), then come back. Role (Warehouse / FLT) and rates are set per person in Setup.</p>`;
+      const blocks = [];
+      for (const g of AG) {
+        const tpl = await getTemplate(g); let secs = [];
+        if (tpl) { try { secs = await TL.agencySectionLabels(tpl.bytes); } catch (e) { secs = []; } }
+        const list = data[g]; const tot = list.reduce((a, p) => a + p.total, 0);
+        const secOf = p => secs.find(x => x.toUpperCase() === String(p.section || '').toUpperCase()) || secs[0] || '';
+        list.forEach(p => p.section = secOf(p));
+        blocks.push(`<div class="agency"><div class="card-h"><h3>${esc(g)} <span class="muted small">${list.length} people · ${fmtH(tot)} h</span></h3>
+          ${tpl ? `<button class="btn primary sm" data-dl="${g}" ${list.length ? '' : 'disabled'}>${ICON.down} Download ${esc(g)} timesheet</button>` : `<span class="alert err sm">No ${g} template — add it in Setup → Agency timesheets</span>`}</div>
+          <div class="tbl-wrap"><table class="grid"><thead><tr><th>Name (col B)</th><th>Section on timesheet</th>${days.map(d => `<th class="r">${new Date(d + 'T12:00').toLocaleDateString('en-GB', { weekday: 'short' })}<br><small>${TL.fmtDMY(d).slice(0, 5)}</small></th>`).join('')}<th class="r">Total</th></tr></thead>
+          <tbody>${list.map((p, i) => `<tr><td>${esc(p.name)}</td><td><select data-sec="${g}:${i}" ${secs.length ? '' : 'disabled'}>${secs.map(x => `<option ${x === p.section ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select></td>${p.days.map(h => `<td class="r">${h ? fmtH(h) : ''}</td>`).join('')}<td class="r"><b>${fmtH(p.total)}</b></td></tr>`).join('') || `<tr><td colspan="10" class="muted c">No ${esc(g)} hours in the Daily Record for this week.</td></tr>`}</tbody></table></div></div>`);
+      }
+      $('#agPrev').innerHTML = blocks.join('') + `<p class="small muted">Not right? Fix the day on the Daily output tab (or in the workbook), then come back. The section you choose is remembered for each person.</p>`;
+      $$('[data-sec]').forEach(el => el.onchange = () => {
+        const [g, i] = el.dataset.sec.split(':'); const p = data[g][+i]; p.section = el.value;
+        const r = p.ros || S.roster.find(x => TL.normName(x.display) === TL.normName(p.name));
+        if (r) { r.agencyRole = el.value; saveSettings(); }
+      });
       $$('[data-dl]').forEach(b => b.onclick = async () => {
         const g = b.dataset.dl; b.disabled = true;
         try {
-          const tplRec = await idb.get('agencyTemplate'); if (!tplRec) throw new Error('No agency template yet — import the starter settings file or upload the template in Setup → Agency timesheet.'); const tpl = tplRec.bytes;
-          const out = await TL.buildAgencySheet(tpl, mon, data[g]);
-          download(out, `${TL.fmtDMY(mon, '.')}-${TL.fmtDMY(TL.addDays(mon, 6), '.')} warehouse time sheet - ${g.toUpperCase()}.xlsx`);
-          toast(`${esc(g)} timesheet downloaded.`);
-        } catch (e) { toast('Could not build timesheet: ' + esc(e.message), 'err'); }
+          const tpl = await getTemplate(g);
+          const res = await TL.fillAgency(tpl.bytes, mon, data[g].map(p => ({ name: p.name, days: p.days, section: p.section })));
+          download(res.bytes, agencyFileName(g, mon));
+          toast(`${esc(g)} timesheet downloaded${res.added ? ` — ${res.added} extra row(s) added to fit everyone` : ''}.`);
+        } catch (e) { console.error(e); toast('Could not build timesheet: ' + esc(e.message), 'err'); }
         b.disabled = false;
       });
     } catch (e) { $('#agPrev').innerHTML = `<div class="alert err">${esc(e.message)}</div>`; }
   }
 
   /* ================= SETUP ================= */
-  const SECTIONS = [['staff', 'Staff & start times'], ['rules', 'Pay rules'], ['rates', 'Pay rates'], ['agency', 'Agency timesheet'], ['workbook', 'Workbook & sheets'], ['security', 'Password & backup']];
+  const SECTIONS = [['staff', 'Staff & start times'], ['rules', 'Pay rules'], ['rates', 'Pay rates'], ['agency', 'Agency timesheets'], ['workbook', 'Workbook & sheets'], ['security', 'Password & backup']];
   function renderSetup(m) {
     m.innerHTML = firstRunBanner() + `<div class="setup"><aside class="side">${SECTIONS.map(([k, t]) => `<button data-s="${k}" class="${st.setup === k ? 'on' : ''}">${t}</button>`).join('')}</aside><div class="pane" id="pane"></div></div>`;
     bindStarter();
@@ -1379,7 +1552,7 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
     p.innerHTML = `<div class="card"><div class="card-h"><div><h2>Staff &amp; start times</h2><p class="muted small">People found in imported site files are added here automatically. Matching uses name + category, so the two Gurpreet Singhs (Air / staff) stay separate.</p></div>
       <button class="btn sm" id="addStaff">${ICON.plus} Add person</button></div>
       <div class="toolbar"><input class="search" id="stQ" placeholder="Search name…" value="${esc(st.staffQ)}"><div class="seg">${['all', ...GROUPS].map(g => `<button data-g="${g}" class="${st.staffG === g ? 'on' : ''}">${g === 'all' ? 'All' : g} <i>${g === 'all' ? S.roster.length : S.roster.filter(r => r.group === g).length}</i></button>`).join('')}</div></div>
-      <div class="tbl-wrap"><table class="grid edit"><thead><tr><th>Active</th><th>Name in site file</th><th>Category</th><th>Name in workbook</th><th>Group</th><th>Pay rule</th><th>Default start</th><th>Finish (cap)</th><th>Source (col N)</th><th>Agency role</th><th>Sheet column</th><th></th></tr></thead><tbody>
+      <div class="tbl-wrap"><table class="grid edit"><thead><tr><th>Active</th><th>Name in site file</th><th>Category</th><th>Name in workbook</th><th>Group</th><th>Pay rule</th><th>Default start</th><th>Finish (cap)</th><th>Source (col N)</th><th>Timesheet section</th><th>Sheet column</th><th></th></tr></thead><tbody>
       ${list.map(([r, i]) => `<tr data-i="${i}"><td><label class="sw"><input type="checkbox" data-k="active" ${r.active ? 'checked' : ''}><i></i></label></td>
         <td><input data-k="name" value="${esc(r.name)}"></td><td><input data-k="cat" value="${esc(r.cat)}" class="xs" title="Air / Insight / Noble / staff — as in the site file"></td>
         <td><input data-k="display" value="${esc(r.display)}"></td>
@@ -1387,7 +1560,7 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
         <td><select data-k="profile">${S.profiles.map(q => `<option value="${q.id}" ${q.id === r.profile ? 'selected' : ''}>${esc(q.name)}</option>`).join('')}</select></td>
         <td><input type="time" data-k="start" value="${esc(r.start)}" list="startTimes"></td><td><input type="time" data-k="end" value="${esc(r.end)}"></td>
         <td><input data-k="source" value="${esc(r.source)}" class="sm" placeholder="e.g. Fulfilment"></td>
-        <td><select data-k="agencyRole"><option ${r.agencyRole !== 'FLT' ? 'selected' : ''}>Warehouse</option><option ${r.agencyRole === 'FLT' ? 'selected' : ''}>FLT</option></select></td>
+        <td><input data-k="agencyRole" value="${esc(r.agencyRole || '')}" class="sm" placeholder="first section" title="Section label on the agency timesheet, e.g. WAREHOUSE 12.71 or FLT 13.00. Blank = first section." ${r.group === 'Air' || r.group === 'Insight' ? '' : 'disabled'}></td>
         <td><input data-k="slot" value="${esc(r.slot)}" class="sm" placeholder="${r.group === 'In-house' || r.group === '0-hour' || r.group === 'COR' ? 'column name' : '—'}" title="Header name on the JASHAN / 0 hour sheet"></td>
         <td><button class="icon" data-del="${i}" title="Delete">${ICON.trash}</button></td></tr>`).join('')}</tbody></table></div>
       <datalist id="startTimes"><option value="06:00"><option value="07:30"><option value="08:00"><option value="09:00"><option value="12:00"></datalist>
@@ -1442,10 +1615,12 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
     p.innerHTML = `<div class="card"><div class="card-h"><div><h2>Pay rates</h2><p class="muted small">Per person: normal hourly rate and overtime hourly rate. Used for Daily Record column T (U = hours × rate) and the agency timesheets. Matched on "Name in workbook" or the site name.</p></div>
       <div class="btns"><button class="btn sm ghost" id="rtTpl">${ICON.down} Download template</button><label class="btn sm ghost">${ICON.up} Upload rates<input type="file" id="rtUp" accept=".csv,.txt" hidden></label><button class="btn sm" id="rtAdd">${ICON.plus} Add</button></div></div>
       <div class="row gap"><input class="search" id="rtQ" placeholder="Search…" value="${esc(st.rateQ)}"><span class="muted small">${S.rates.length} rates</span>
+        <label class="small ck"><input type="checkbox" id="wrD" ${S.agency.writeRateInDaily ? 'checked' : ''}> Write rate into Daily Record column T (U = R × T)</label>
         <span class="small">If someone has no rate: Air <input type="number" step="0.01" class="xs" data-gr="Air" value="${S.groupRates.Air ?? ''}"> Insight <input type="number" step="0.01" class="xs" data-gr="Insight" value="${S.groupRates.Insight ?? ''}"></span></div>
       <div class="tbl-wrap"><table class="grid edit"><thead><tr><th>Name</th><th class="r">Normal £/h</th><th class="r">Overtime £/h</th><th></th></tr></thead><tbody>
       ${list.map(([r, i]) => `<tr data-i="${i}"><td><input data-k="name" value="${esc(r.name)}"></td><td><input type="number" step="0.01" data-k="normal" value="${r.normal ?? ''}" class="num"></td><td><input type="number" step="0.01" data-k="ot" value="${r.ot ?? ''}" class="num"></td><td><button class="icon" data-del="${i}">${ICON.trash}</button></td></tr>`).join('')}</tbody></table></div></div>`;
     $('#rtQ').oninput = e => { st.rateQ = e.target.value; const pos = e.target.selectionStart; setupRates(p); const i = $('#rtQ'); i.focus(); i.setSelectionRange(pos, pos); };
+    $('#wrD').onchange = e => { S.agency.writeRateInDaily = e.target.checked; saveSettings(); };
     $$('[data-gr]', p).forEach(el => el.onchange = () => { S.groupRates[el.dataset.gr] = el.value === '' ? null : +el.value; saveSettings(); });
     $$('tbody [data-k]', p).forEach(el => el.onchange = () => { const r = S.rates[+el.closest('tr').dataset.i]; r[el.dataset.k] = el.type === 'number' ? (el.value === '' ? null : +el.value) : el.value; saveSettings(); });
     $$('[data-del]', p).forEach(b => b.onclick = () => { S.rates.splice(+b.dataset.del, 1); saveSettings(); setupRates(p); });
@@ -1466,29 +1641,23 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
     };
   }
   function setupAgency(p) {
-    const a = S.agency;
-    p.innerHTML = `<div class="card"><h2>Agency timesheet</h2>
-      <fieldset class="box"><legend>Overtime on the agency timesheet</legend>
-        <label class="ck"><input type="radio" name="ot" value="none" ${a.otMode === 'none' ? 'checked' : ''}> None — all hours are standard hours (current template)</label>
-        <label class="ck"><input type="radio" name="ot" value="weekly" ${a.otMode === 'weekly' ? 'checked' : ''}> Hours over <input type="number" class="xs" id="otW" value="${a.otWeekly}"> per week are overtime</label>
-        <label class="ck"><input type="radio" name="ot" value="daily" ${a.otMode === 'daily' ? 'checked' : ''}> Hours over <input type="number" class="xs" id="otD" value="${a.otDaily}"> per day are overtime</label></fieldset>
-      <fieldset class="box"><legend>Rates on the timesheet</legend>
-        <label class="ck"><input type="radio" name="rs" value="rates" ${a.rateSource !== 'section' ? 'checked' : ''}> Each person's rate from <b>Pay rates</b> (normal + OT)</label>
-        <label class="ck"><input type="radio" name="rs" value="section" ${a.rateSource === 'section' ? 'checked' : ''}> The section rate printed in the template (WAREHOUSE 12.71 / FLT 13.00)</label>
-        <label class="ck"><input type="checkbox" id="wrD" ${a.writeRateInDaily ? 'checked' : ''}> Also write the rate into Daily Record column T (and U = R × T)</label></fieldset>
-      <fieldset class="box"><legend>Agencies</legend><p class="small muted">One timesheet per group. People are placed in WAREHOUSE or FLT by their "Agency role" in the Staff list; extra rows are added automatically.</p>
-        ${['Air', 'Insight'].map(g => `<label class="ck"><input type="checkbox" data-ag="${g}" ${a.groups.includes(g) ? 'checked' : ''}> ${g}</label>`).join('')}</fieldset>
-      <fieldset class="box"><legend>Template</legend><p class="small" id="tplInfo">Checking…</p>
-        <label class="btn sm ghost">${ICON.up} Upload template<input type="file" id="tplUp" accept=".xlsx" hidden></label> <button class="btn sm ghost" id="tplDl">${ICON.down} Download current</button></fieldset></div>`;
-    const sv = () => saveSettings();
-    $$('[name=ot]', p).forEach(el => el.onchange = () => { a.otMode = el.value; sv(); });
-    $('#otW').onchange = e => { a.otWeekly = +e.target.value; sv(); }; $('#otD').onchange = e => { a.otDaily = +e.target.value; sv(); };
-    $$('[name=rs]', p).forEach(el => el.onchange = () => { a.rateSource = el.value; sv(); });
-    $('#wrD').onchange = e => { a.writeRateInDaily = e.target.checked; sv(); };
-    $$('[data-ag]', p).forEach(el => el.onchange = () => { a.groups = ['Air', 'Insight'].filter(g => $(`[data-ag="${g}"]`, p).checked); sv(); });
-    idb.get('agencyTemplate').then(t => { $('#tplInfo').innerHTML = t ? `Template: <b>${esc(t.name)}</b> (saved ${new Date(t.savedAt).toLocaleDateString('en-GB')})` : '<span style="color:var(--err)">No template yet — upload the warehouse time sheet template (.xlsx) or import the starter settings file.</span>'; });
-    $('#tplUp').onchange = async e => { const f = e.target.files[0]; if (!f) return; try { const b = new Uint8Array(await readFile(f)); await TL.buildAgencySheet(b, '2026-01-05', { warehouse: [], flt: [] }); await idb.set('agencyTemplate', { name: f.name, savedAt: Date.now(), bytes: b }); toast('Template saved.'); setupAgency(p); } catch (err) { toast('Template not usable: ' + esc(err.message), 'err'); } };
-    $('#tplDl').onclick = async () => { const t = await idb.get('agencyTemplate'); if (!t) return toast('No template saved yet.', 'warn'); download(t.bytes, t.name); };
+    p.innerHTML = `<div class="card"><h2>Agency timesheets</h2>
+      <p class="small muted">Each agency has its own template. The site fills only column B (names) and C–I (Mon–Sun hours) plus the week dates; everything else (rates, formulas, signatures) is kept as in the template. If a section is full, rows are inserted and its totals extended.</p>
+      ${AG.map(g => `<fieldset class="box"><legend>${g} template</legend><p class="small" id="ti-${g}">Checking…</p>
+        <label class="btn sm ghost">${ICON.up} Upload ${g} template<input type="file" data-up="${g}" accept=".xlsx" hidden></label> <button class="btn sm ghost" data-dlt="${g}">${ICON.down} Download current</button></fieldset>`).join('')}
+      <p class="small muted">Which section each person goes in (e.g. WAREHOUSE 12.71 or FLT 13.00) is chosen on the Weekly agency tab and remembered.</p></div>`;
+    for (const g of AG) {
+      getTemplate(g).then(async t => {
+        let secs = []; if (t) { try { secs = await TL.agencySectionLabels(t.bytes); } catch (e) { } }
+        $('#ti-' + g).innerHTML = t ? `<b>${esc(t.name)}</b> (saved ${new Date(t.savedAt).toLocaleDateString('en-GB')}) · sections: ${secs.map(x => `<span class="pill">${esc(x)}</span>`).join(' ') || '<span style="color:var(--err)">layout not recognised</span>'}` : '<span style="color:var(--err)">No template yet — upload it, or import the starter settings file.</span>';
+      });
+    }
+    $$('[data-up]', p).forEach(el => el.onchange = async () => {
+      const g = el.dataset.up; const f = el.files[0]; if (!f) return;
+      try { const b = new Uint8Array(await readFile(f)); const secs = await TL.agencySectionLabels(b); await idb.set(tplKey(g), { name: f.name, savedAt: Date.now(), bytes: b }); toast(`${g} template saved (${secs.length} sections).`); setupAgency(p); }
+      catch (err) { toast('Template not usable: ' + esc(err.message), 'err'); }
+    });
+    $$('[data-dlt]', p).forEach(el => el.onclick = async () => { const t = await getTemplate(el.dataset.dlt); if (!t) return toast('No template saved yet.', 'warn'); download(t.bytes, t.name); });
   }
   function setupWorkbook(p) {
     const sv = st.wbSaved;
@@ -1529,8 +1698,8 @@ fieldset.box,form.box{margin:12px 0;padding:12px 14px;border:1px solid var(--lin
       if ($('#pw1').value.length < 6) return toast('Use at least 6 characters.', 'err'); if ($('#pw1').value !== $('#pw2').value) return toast('New passwords do not match.', 'err');
       S.pwHash = await sha256($('#pw1').value); saveSettings(); sessionStorage.setItem('tylosLabour.unlocked', S.pwHash); toast('Password changed.'); setupSecurity(p);
     };
-    $('#exS').onclick = async () => { const c = JSON.parse(JSON.stringify(S)); const t = await idb.get('agencyTemplate'); if (t) { let bin = ''; const u = t.bytes; for (let i = 0; i < u.length; i += 0x8000) bin += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); c.agencyTemplate = { name: t.name, b64: btoa(bin) }; } download(new TextEncoder().encode(JSON.stringify(c, null, 1)), `tylos-labour-settings-${new Date().toISOString().slice(0, 10)}.json`, 'application/json'); };
-    $('#imS').onchange = async e => { const f = e.target.files[0]; if (!f) return; try { const j = JSON.parse(await readText(f)); if (!j.roster || !j.profiles) throw new Error('Not a Tylos Labour settings file.'); if (!confirm('Replace this browser’s staff list, rules, rates and options with the file?' + (j.pwHash ? '\n(The password from the file will also be used.)' : ''))) return; const tpl = j.agencyTemplate; delete j.agencyTemplate; if (!j.pwHash) j.pwHash = S.pwHash; S = j; saveSettings(); if (tpl && tpl.b64) await idb.set('agencyTemplate', { name: tpl.name, savedAt: Date.now(), bytes: b64ToBytes(tpl.b64) }); sessionStorage.setItem('tylosLabour.unlocked', S.pwHash); toast('Settings imported.'); render(); } catch (err) { toast(esc(err.message), 'err'); } };
+    $('#exS').onclick = async () => { const c = JSON.parse(JSON.stringify(S)); c.agencyTemplates = {}; for (const g of AG) { const t = await getTemplate(g); if (t) c.agencyTemplates[g] = { name: t.name, b64: bytesToB64(t.bytes) }; } download(new TextEncoder().encode(JSON.stringify(c, null, 1)), `tylos-labour-settings-${new Date().toISOString().slice(0, 10)}.json`, 'application/json'); };
+    $('#imS').onchange = async e => { const f = e.target.files[0]; if (!f) return; try { const j = JSON.parse(await readText(f)); if (!j.roster || !j.profiles) throw new Error('Not a Tylos Labour settings file.'); if (!confirm('Replace this browser’s staff list, rules, rates and options with the file?' + (j.pwHash ? '\n(The password from the file will also be used.)' : ''))) return; await applySettingsFile(j); sessionStorage.setItem('tylosLabour.unlocked', S.pwHash); toast('Settings imported.'); render(); } catch (err) { toast(esc(err.message), 'err'); } };
     $('#rsS').onclick = () => { if (!confirm('Reset staff, rules, rates, options and password to the original defaults?')) return; localStorage.removeItem(LS_KEY); S = loadSettings(); saveSettings(); sessionStorage.setItem('tylosLabour.unlocked', S.pwHash); toast('Reset done.'); render(); };
   }
 
