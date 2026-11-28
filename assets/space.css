@@ -985,3 +985,214 @@ html.menu-open { overflow: hidden; }
   .spot-thumb { aspect-ratio: auto; min-height: 260px; height: 100%; }
   .spot-thumb img { position: absolute; inset: 0; }
 }
+
+/* ---------- Calmer first screen ---------- */
+.hero { gap: 18px; padding-top: 8px; }
+.hero-bot { gap: 4px; }
+.bubble { font-size: 15px; padding: 9px 14px; min-height: 0; }
+.hero-copy { gap: 14px; text-align: left; }
+.hello { font-size: 14px; }
+.lede { font-size: 16.5px; }
+.pods { gap: 26px; }
+.pod-label { font-size: 13.5px; margin-top: 6px; white-space: nowrap; }
+.pod-icon { width: 50px; height: 50px; border-radius: 16px; }
+.pod-icon svg { width: 24px; height: 24px; }
+.pod-badge {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: var(--berry);
+  color: #fff;
+  font: 700 12px/1 var(--sans);
+  box-shadow: 0 0 0 3px var(--night), 0 0 12px #FF5C7A88;
+}
+.pod-badge[hidden] { display: none; }
+.hud { opacity: .35; }
+.bot-stage .bot-button::before {
+  /* soft glow pad under Jambot */
+  content: "";
+  position: absolute;
+  inset: 18% 10% 6%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--eye) 22%, transparent), transparent);
+  transition: background .5s;
+}
+.bot-button { position: relative; isolation: isolate; }
+.meaning { margin-top: 4px; }
+@media (min-width: 900px) {
+  .hero { gap: 40px; }
+  .hero-copy { gap: 22px; }
+  .lede { font-size: 18px; max-width: 30em; }
+  .pod-icon { width: 58px; height: 58px; border-radius: 19px; }
+  .pod-label { font-size: 14.5px; }
+  .pods { gap: 34px; }
+}
+
+/* ---------- Jaemi TV ---------- */
+.tv { position: relative; display: grid; gap: 8px; padding-top: 18px; }
+.tv-antennas { position: absolute; top: 0; left: 50%; width: 120px; height: 28px; margin-left: -60px; }
+.tv-antennas i { position: absolute; bottom: 0; width: 3px; height: 32px; border-radius: 2px; background: #A6B6D6; transform-origin: bottom center; }
+.tv-antennas i:first-child { left: 40px; transform: rotate(-32deg); }
+.tv-antennas i:last-child { right: 40px; transform: rotate(32deg); }
+.tv-antennas i::before { content: ""; position: absolute; top: -5px; left: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--berry); box-shadow: 0 0 10px var(--berry); }
+.tv-antennas i:last-child::before { background: var(--holly); box-shadow: 0 0 10px var(--holly); }
+.tv-bezel {
+  position: relative;
+  padding: 10px 10px 0;
+  border-radius: 26px;
+  background: linear-gradient(145deg, #E9EEFA, #9FAFCC 55%, #5A6B90);
+  box-shadow: 0 24px 50px #0009, inset 0 2px 0 #ffffff80;
+}
+.tv-screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 40%, #FFD27A55, transparent 40%),
+    radial-gradient(circle at 70% 60%, #FF5C7A44, transparent 45%),
+    linear-gradient(135deg, #1B2A6B, #050A1E);
+  box-shadow: inset 0 0 0 2px #050A1E, inset 0 0 40px #000c;
+}
+.tv-screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.tv-start { position: absolute; inset: 0; display: block; color: #fff; text-decoration: none; }
+.tv-start img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tv-start::after {
+  /* faint scan lines, only before playing */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, #0000 0 3px, #0000002e 3px 4px), radial-gradient(ellipse at center, transparent 55%, #0008);
+  pointer-events: none;
+}
+.tv-start .play { z-index: 1; }
+.tv-hint {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: calc(50% + 46px);
+  transform: translateX(-50%);
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #050A1Ecc;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.tv-bar { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 6px 0 10px; color: #1A2340; }
+.onair { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 4px 9px; border-radius: 8px; background: #1A234022; font: 700 11.5px var(--mono); letter-spacing: .02em; }
+.onair i { width: 8px; height: 8px; border-radius: 50%; background: #6B7899; }
+.tv.playing .onair i { background: #E5484D; box-shadow: 0 0 8px #E5484D; }
+@media (prefers-reduced-motion: no-preference) { html.js:not(.still) .tv.playing .onair i { animation: ping 1.4s infinite; } }
+.tv-title { flex: 1; min-width: 0; font-weight: 600; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tv-yt { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 12px; color: #1A2340; }
+.tv-yt svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.tv-yt:hover { background: #1A234018; }
+.tv-note { font-size: 13px; color: var(--faint); padding-left: 4px; }
+.spot-head h2 span { font-size: .75em; }
+@media (min-width: 900px) {
+  .tv { grid-row: 1 / span 2; align-self: start; }
+  .tv-bezel { padding: 14px 14px 0; border-radius: 32px; }
+  .tv-screen { border-radius: 20px; }
+}
+
+/* ---------- Back to top ---------- */
+.to-top {
+  position: fixed;
+  z-index: 31;
+  right: max(22px, calc(env(safe-area-inset-right, 0px) + 8px));
+  bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 8px 24px #0008;
+}
+.to-top[hidden] { display: none; }
+.to-top svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.to-top:hover { border-color: #6CF5D677; }
+.chat-is-open .to-top { display: none; }
+
+/* ---------- Jaemi TV remote ---------- */
+.tv-remote { display: grid; gap: 2px; padding: 0 4px 12px; color: #1A2340; }
+.tv-remote[hidden] { display: none; }
+.tv-progress { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; min-height: 36px; }
+.tv-time { font: 600 12.5px var(--mono); min-width: 3.6em; text-align: center; }
+.tv-progress input { width: 100%; height: 36px; margin: 0; background: transparent; accent-color: #0E7C66; cursor: pointer; }
+.tv-progress input:disabled { cursor: default; opacity: .5; }
+.tv-buttons { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.tv-buttons button {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 0;
+  background: linear-gradient(160deg, #1E2A55, #0A1230);
+  color: var(--ink);
+  box-shadow: 0 3px 0 #3B4870, 0 6px 14px #0005, inset 0 1px 0 #ffffff22;
+  cursor: pointer;
+  transition: transform .1s, box-shadow .1s, opacity .2s;
+}
+.tv-buttons button:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #3B4870, 0 3px 8px #0005; }
+.tv-buttons button:disabled { opacity: .45; cursor: default; }
+.tv-buttons svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.tv-buttons .tv-big { width: 60px; height: 60px; background: linear-gradient(160deg, #8BFFE5, #3FD9B8); color: #06152C; box-shadow: 0 4px 0 #1C9C82, 0 8px 20px #6CF5D655; }
+.tv-big svg { width: 28px; height: 28px; fill: currentColor; stroke: none; }
+.tv-big .i-pause, .tv.playing .tv-big .i-play { display: none; }
+.tv.playing .tv-big .i-pause { display: inline; }
+.i-muted, .tv.muted .i-sound { display: none; }
+.tv.muted .i-muted { display: inline; }
+.tv-screen:fullscreen { border-radius: 0; }
+.toast {
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  max-width: calc(100vw - 32px);
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--night);
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 10px 30px #000a;
+  overflow-wrap: anywhere;
+}
+.toast[hidden] { display: none; }
+@media (min-width: 900px) {
+  .tv-buttons { justify-content: center; gap: 14px; }
+  .tv-remote { padding: 2px 12px 14px; }
+}
+.spot-grid > * { min-width: 0; }
+@media (max-width: 899px) {
+  .spot-inner { padding-left: 14px; padding-right: 14px; }
+  .tv-bezel { padding: 8px 8px 0; }
+  .tv-buttons { gap: 4px; }
+  .tv-buttons button { width: 42px; height: 42px; }
+  .tv-buttons .tv-big { width: 54px; height: 54px; }
+  .tv-progress { gap: 8px; }
+}
+@media (max-width: 360px) {
+  .tv-buttons button { width: 38px; height: 38px; }
+  .tv-buttons .tv-big { width: 50px; height: 50px; }
+}
+.tv { grid-template-columns: minmax(0, 1fr); }
+.tv-bezel, .tv-bar, .tv-remote, .tv-progress { min-width: 0; }
+.tv-progress input { min-width: 0; }

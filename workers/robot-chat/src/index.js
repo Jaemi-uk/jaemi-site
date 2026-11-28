@@ -16,7 +16,7 @@ What exists today:
 - Mino AI News on YouTube: https://www.youtube.com/@MinoAINews (AI and robots)
 - Jamie's Jazz Rooms on YouTube: https://www.youtube.com/@JamiesJazzRooms (jazz, bossa nova, café moods)
 - Clocked Out Cats on YouTube: https://www.youtube.com/@ClockedOutCats (human problems, cat attitude: short animated comedy starring Milo the cat)
-- Christmas film "Christmas Jazz Around the World": https://www.youtube.com/watch?v=zZaZsq8hqIM
+- Christmas film "Christmas Jazz Around the World": plays on Jaemi TV on the home page (https://jaemi.uk/#tv) or on YouTube https://www.youtube.com/watch?v=zZaZsq8hqIM
 - Christmas live streams on Jamie's Jazz Rooms from Monday 30 November 2026: https://www.youtube.com/@JamiesJazzRooms/streams
 - Christmas giveaway rules: https://jaemi.uk/games/XmasTnC/ (closes 10 December 2026, 23:59 UK time)
 Coming soon (say so plainly, never promise dates): Jaemi Shop (robots, mobile phone parts, imported finds), everyday AI lessons, Mino Boxing game, sign-ups for updates, Instagram and TikTok.

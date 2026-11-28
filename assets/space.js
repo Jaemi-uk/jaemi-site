@@ -15,6 +15,9 @@
    giveawayCloses   When the Christmas giveaway labels switch to "Closed".
    season           Dates for the seasonal look (Santa hat on Jambot, snow).
    liveFrom         When the Christmas live streams start.
+   tv               What Jaemi TV plays. To promote a different video, change
+                    videoId (the part after "watch?v=" in a YouTube link) and
+                    title. Videos play inside the page, not on YouTube.
 
    Timed content: in index.html, add data-show-until="2027-01-01T00:00:00Z"
    to anything that should disappear on a date, or data-show-from="..." (plus
@@ -27,6 +30,7 @@ const JAEMI_SETTINGS = {
   giveawayCloses: "2026-12-10T23:59:59Z",
   season: { name: "christmas", from: "2026-11-15T00:00:00Z", until: "2027-01-01T00:00:00Z" },
   liveFrom: "2026-11-30T00:00:00Z",
+  tv: { videoId: "zZaZsq8hqIM", title: "Christmas Jazz Around the World" },
   links: {
     robots: "/robots/",
     mino: "https://www.youtube.com/@MinoAINews",
@@ -64,6 +68,7 @@ const JAEMI_SETTINGS = {
   const countdown = daysLeft > 1 ? `${daysLeft} days left` : daysLeft === 1 ? "Last day" : "Closed";
   document.querySelectorAll("[data-countdown]").forEach((el) => { el.textContent = countdown; });
   document.querySelectorAll("[data-countdown-pill]").forEach((el) => { el.textContent = daysLeft >= 1 ? `Ends in ${daysLeft} day${daysLeft === 1 ? "" : "s"}` : "Closed"; });
+  document.querySelectorAll("[data-days-badge]").forEach((el) => { if (daysLeft >= 1) el.textContent = String(daysLeft); else el.hidden = true; });
   if (now >= Date.parse(JAEMI_SETTINGS.liveFrom)) document.querySelectorAll("[data-live-pill]").forEach((el) => { el.textContent = "On YouTube now"; });
 
   /* ---------- Pause motion ---------- */
@@ -104,7 +109,7 @@ const JAEMI_SETTINGS = {
 
   /* ---------- Boot sequence (once per page load) ---------- */
   body.classList.add("booting");
-  setTimeout(() => say(inSeason ? `${hello} I’m Jambot. Merry Christmas from Jaemi Space! 🎄` : `${hello} I’m Jambot. Welcome to Jaemi Space!`), moving() ? 1500 : 0);
+  setTimeout(() => say(inSeason ? "Hi, I’m Jambot! Merry Christmas 🎄" : `${hello} I’m Jambot!`), moving() ? 1500 : 0);
   setTimeout(() => body.classList.remove("booting"), 2600);
 
   /* ---------- Eye colour follows the space you are in ---------- */
@@ -263,9 +268,9 @@ const JAEMI_SETTINGS = {
   const brain = [
     [/shop|store|order|deliver|phone part|parts|checkout|商店|網店|訂購/i, () => ["Jaemi Shop is coming soon: robots, mobile phone parts and imported finds. Nothing is for sale yet. Until then, the robot buying guide shows robots you can buy elsewhere.", [["Robot buying guide", L.robots]]]],
     [/robot|humanoid|unitree|buy|price|cost|機械人|機器人|買/i, () => ["🤖 The robot buying guide lists robots you can actually buy, with real prices and where each one ships.", [["Open the guide", L.robots], ["Mino AI News", L.mino]]]],
-    [/jazz|music|relax|chill|bossa|cafe|café|study music|爵士|音樂/i, () => ["🎷 Jamie’s Jazz Rooms has jazz, bossa nova and café moods for slowing down.", [["Jamie’s Jazz Rooms", L.jazz], ["Christmas film", L.film]]]],
+    [/jazz|music|relax|chill|bossa|cafe|café|study music|爵士|音樂/i, () => ["🎷 Jamie’s Jazz Rooms has jazz, bossa nova and café moods for slowing down.", [["Play on Jaemi TV", "#tv"], ["Jamie’s Jazz Rooms", L.jazz]]]],
     [/\bcat\b|cats|clocked|milo|貓/i, () => ["🐱 Clocked Out Cats is our cat channel: human problems, cat attitude. Short animated comedy starring Milo the cat.", [["Clocked Out Cats", L.cat]]]],
-    [/giveaway|christmas|xmas|prize|win|live|stream|聖誕|抽獎|直播/i, () => [giveawayOpen ? "🎄 It’s Christmas at Jaemi Space! Watch our Christmas film, and comment your favourite song in it (and who you’d play it for) to enter the giveaway. It closes on 10 December 2026. Christmas live streams are on Jamie’s Jazz Rooms too. 🎁" : "🎄 Our Christmas film is still playing, and Christmas live streams are on Jamie’s Jazz Rooms. The giveaway has closed; the rules page has the details.", [["Christmas film", L.film], ["Giveaway rules", L.giveaway], ["Live streams", `${L.jazz}/streams`]]]],
+    [/giveaway|christmas|xmas|prize|win|live|stream|聖誕|抽獎|直播/i, () => [giveawayOpen ? "🎄 It’s Christmas at Jaemi Space! Watch our Christmas film right here on Jaemi TV 📺, then comment your favourite song in it (and who you’d play it for) to enter the giveaway. It closes on 10 December 2026. Christmas live streams are on Jamie’s Jazz Rooms too. 🎁" : "🎄 Our Christmas film is still playing, and Christmas live streams are on Jamie’s Jazz Rooms. The giveaway has closed; the rules page has the details.", [["Play on Jaemi TV", "#tv"], ["Giveaway rules", L.giveaway], ["Live streams", `${L.jazz}/streams`]]]],
     [/\bai\b|news|tech|mino|gadget|人工智能|新聞/i, () => ["🛰️ Mino AI News covers AI discoveries and robots worth knowing about.", [["Mino AI News", L.mino]]]],
     [/learn|course|lesson|class|teach|study|school|課程|學/i, () => ["Everyday AI lessons are coming soon, for individuals and groups. No courses are open yet.", [["See the plans", "#bench-learn"]]]],
     [/sign ?up|newsletter|email|updates|notify|waiting list|waitlist|subscribe|訂閱|登記/i, () => ["Sign-ups are coming soon. No form is switched on yet, so please don’t share your email or other details here. You can subscribe to our YouTube channels today.", [["Mino AI News", `${L.mino}?sub_confirmation=1`], ["Jamie’s Jazz Rooms", `${L.jazz}?sub_confirmation=1`]]]],
@@ -309,6 +314,7 @@ const JAEMI_SETTINGS = {
     opener = from || document.activeElement;
     chatOpen = true;
     chat.hidden = false;
+    root.classList.add("chat-is-open");
     if (dock) dock.hidden = true;
     if (!greeted) {
       greeted = true;
@@ -321,6 +327,7 @@ const JAEMI_SETTINGS = {
     if (!chat || chat.hidden) return;
     chat.hidden = true;
     chatOpen = false;
+    root.classList.remove("chat-is-open");
     if (docked && dock) dock.hidden = false;
     if (opener && opener.focus && !opener.hidden) opener.focus();
   };
@@ -339,6 +346,145 @@ const JAEMI_SETTINGS = {
   form?.addEventListener("submit", (e) => { e.preventDefault(); const v = input.value; input.value = ""; ask(v); });
   document.querySelectorAll("#chat-chips [data-ask]").forEach((b) => b.addEventListener("click", () => ask(b.dataset.ask)));
 
+
+
+  /* ---------- Jaemi TV: plays inside the page, with its own remote ---------- */
+  const tvSet = JAEMI_SETTINGS.tv;
+  const tvPlay = $("#tv-play"), tvScreen = $("#tv-screen"), tvBox = $(".tv");
+  const toast = $("#toast");
+  let toastTimer = 0;
+  const showToast = (msg) => {
+    if (!toast) return;
+    toast.textContent = msg; toast.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { toast.hidden = true; }, 2600);
+  };
+  if (tvSet && tvPlay && tvScreen && tvBox) {
+    const id = encodeURIComponent(tvSet.videoId);
+    const watchUrl = `https://www.youtube.com/watch?v=${id}`;
+    const shareUrl = "https://jaemi.uk/#tv";
+    tvPlay.href = watchUrl;
+    const yt = $("#tv-yt"); if (yt) yt.href = watchUrl;
+    const nowEl = $("#tv-now"); if (nowEl) nowEl.textContent = tvSet.title;
+    const img = tvPlay.querySelector("img"); if (img) img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+    const btn = (k) => tvBox.querySelector(`[data-tv="${k}"]`);
+    const seek = $("#tv-seek"), cur = $("#tv-cur"), dur = $("#tv-dur");
+    const fmt = (t) => {
+      t = Math.max(0, Math.floor(t || 0));
+      const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), sec = String(t % 60).padStart(2, "0");
+      return h ? `${h}:${String(m).padStart(2, "0")}:${sec}` : `${m}:${sec}`;
+    };
+    const canFull = !!(tvScreen.requestFullscreen || tvScreen.webkitRequestFullscreen);
+    if (!canFull) btn("full").hidden = true;
+    let player = null, ready = false, fellBack = false, seeking = false, ticker = 0;
+
+    const setPlaying = (on) => {
+      tvBox.classList.toggle("playing", on);
+      btn("play").setAttribute("aria-label", on ? "Pause" : "Play");
+    };
+    const enable = (on) => {
+      ["back", "fwd", "mute", "full"].forEach((k) => { btn(k).disabled = !on; });
+      seek.disabled = !on;
+    };
+    const tick = () => {
+      if (!ready || !player.getDuration) return;
+      const d = player.getDuration() || 0, c = player.getCurrentTime() || 0;
+      if (d) { seek.max = Math.floor(d); dur.textContent = fmt(d); }
+      if (!seeking) { seek.value = Math.floor(c); cur.textContent = fmt(c); }
+      tvBox.classList.toggle("muted", player.isMuted());
+      btn("mute").setAttribute("aria-label", player.isMuted() ? "Unmute" : "Mute");
+    };
+
+    // If YouTube's player controls can't load, fall back to a plain embed with YouTube's own buttons.
+    const fallback = () => {
+      if (ready || fellBack) return;
+      fellBack = true;
+      const f = document.createElement("iframe");
+      f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
+      f.title = `Jaemi TV: ${tvSet.title}`;
+      f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      f.allowFullscreen = true;
+      tvScreen.innerHTML = ""; tvScreen.append(f);
+      tvBox.classList.add("playing");
+      btn("play").disabled = true; enable(false);
+      const note = $("#tv-note"); if (note) note.textContent = "Using YouTube’s own buttons on the screen. YouTube may set cookies once you press play.";
+    };
+
+    const start = () => {
+      tvScreen.innerHTML = '<div id="tv-player"></div>';
+      const build = () => {
+        if (fellBack) return;
+        player = new window.YT.Player("tv-player", {
+          host: "https://www.youtube-nocookie.com",
+          videoId: tvSet.videoId,
+          playerVars: { autoplay: 1, playsinline: 1, rel: 0, controls: 0, modestbranding: 1, iv_load_policy: 3 },
+          events: {
+            onReady: (e) => {
+              ready = true; enable(true);
+              const f = tvScreen.querySelector("iframe"); if (f) f.title = `Jaemi TV: ${tvSet.title}`;
+              e.target.playVideo();
+              ticker = setInterval(tick, 500); tick();
+            },
+            onStateChange: (e) => {
+              setPlaying(e.data === 1 || e.data === 3);
+              if (e.data === 0) { setPlaying(false); tick(); }
+            },
+            onError: () => { ready = false; clearInterval(ticker); fallback(); }
+          }
+        });
+      };
+      if (window.YT && window.YT.Player) build();
+      else {
+        const prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => { if (prev) prev(); build(); };
+        const sc = document.createElement("script");
+        sc.src = "https://www.youtube.com/iframe_api";
+        sc.onerror = fallback;
+        document.head.append(sc);
+      }
+      setTimeout(() => { if (!ready) fallback(); }, 6000);
+    };
+
+    const toggle = () => {
+      if (fellBack) return;
+      if (!player) { start(); setPlaying(true); return; }
+      if (!ready) return;
+      const st = player.getPlayerState();
+      if (st === 1 || st === 3) player.pauseVideo(); else player.playVideo();
+    };
+    tvPlay.addEventListener("click", (e) => { e.preventDefault(); toggle(); });
+    btn("play").addEventListener("click", toggle);
+    btn("back").addEventListener("click", () => { if (ready) { player.seekTo(Math.max(0, player.getCurrentTime() - 10), true); tick(); } });
+    btn("fwd").addEventListener("click", () => { if (ready) { player.seekTo(player.getCurrentTime() + 10, true); tick(); } });
+    btn("mute").addEventListener("click", () => { if (!ready) return; if (player.isMuted()) player.unMute(); else player.mute(); setTimeout(tick, 120); });
+    btn("full").addEventListener("click", () => {
+      if (document.fullscreenElement) { document.exitFullscreen(); return; }
+      (tvScreen.requestFullscreen || tvScreen.webkitRequestFullscreen).call(tvScreen);
+    });
+    seek.addEventListener("input", () => { seeking = true; cur.textContent = fmt(seek.value); });
+    seek.addEventListener("change", () => { if (ready) player.seekTo(Number(seek.value), true); seeking = false; });
+    btn("share").addEventListener("click", async () => {
+      const data = { title: `Jaemi TV: ${tvSet.title}`, text: "Watch this on Jaemi TV 📺", url: shareUrl };
+      if (navigator.share) { try { await navigator.share(data); } catch (e) {} return; }
+      try { await navigator.clipboard.writeText(shareUrl); showToast("Link copied. Paste it anywhere to share 📺"); }
+      catch (e) { showToast(`Share this link: ${shareUrl}`); }
+    });
+  }
+
+  /* ---------- Back to top (and the logo also goes to the top) ---------- */
+  const toTop = $("#to-top");
+  const goTop = (e) => {
+    if (e) e.preventDefault();
+    window.scrollTo({ top: 0, behavior: moving() ? "smooth" : "auto" });
+    $(".brand")?.focus({ preventScroll: true });
+  };
+  if (toTop) {
+    const sync = () => { toTop.hidden = window.scrollY < Math.max(700, window.innerHeight * 0.9); };
+    window.addEventListener("scroll", sync, { passive: true });
+    sync();
+    toTop.addEventListener("click", goTop);
+  }
+  $(".brand")?.addEventListener("click", (e) => { if (location.pathname === "/" || location.pathname.endsWith("index.html")) goTop(e); });
 
   /* ---------- Menu (phones and tablets) ---------- */
   const menuBtn = $("#menu-btn"), menu = $("#menu");
