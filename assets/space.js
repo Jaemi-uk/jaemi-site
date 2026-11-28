@@ -13,11 +13,20 @@
                     basic mode: it answers from the list below, on the
                     visitor's own device, and sends nothing anywhere.
    giveawayCloses   When the Christmas giveaway labels switch to "Closed".
+   season           Dates for the seasonal look (Santa hat on Jambot, snow).
+   liveFrom         When the Christmas live streams start.
+
+   Timed content: in index.html, add data-show-until="2027-01-01T00:00:00Z"
+   to anything that should disappear on a date, or data-show-from="..." (plus
+   the hidden attribute) to anything that should appear on a date. That is how
+   Christmas items step aside and the everyday items take their place.
    ========================================================================= */
 const JAEMI_SETTINGS = {
   hubspot: { portalId: "248125260", region: "na2", formId: "" },
   chat: { endpoint: "" },
   giveawayCloses: "2026-12-10T23:59:59Z",
+  season: { name: "christmas", from: "2026-11-15T00:00:00Z", until: "2027-01-01T00:00:00Z" },
+  liveFrom: "2026-11-30T00:00:00Z",
   links: {
     robots: "/robots/",
     mino: "https://www.youtube.com/@MinoAINews",
@@ -36,6 +45,26 @@ const JAEMI_SETTINGS = {
   const moving = () => !motionQuery.matches && !root.classList.contains("still");
   const giveawayOpen = Date.now() <= Date.parse(JAEMI_SETTINGS.giveawayCloses);
   const $ = (s) => document.querySelector(s);
+  const now = Date.now();
+
+  /* ---------- Timed content and the seasonal look ---------- */
+  document.querySelectorAll("[data-show-from], [data-show-until]").forEach((el) => {
+    const from = el.dataset.showFrom ? Date.parse(el.dataset.showFrom) : -Infinity;
+    const until = el.dataset.showUntil ? Date.parse(el.dataset.showUntil) : Infinity;
+    el.hidden = !(now >= from && now < until);
+  });
+  const season = JAEMI_SETTINGS.season;
+  const inSeason = season && now >= Date.parse(season.from) && now < Date.parse(season.until);
+  if (inSeason) root.classList.add(`season-${season.name}`);
+  document.querySelectorAll(".js-only").forEach((el) => { el.hidden = false; });
+
+  // Giveaway countdown and live-stream label
+  const closes = Date.parse(JAEMI_SETTINGS.giveawayCloses);
+  const daysLeft = Math.ceil((closes - now) / 86400000);
+  const countdown = daysLeft > 1 ? `${daysLeft} days left` : daysLeft === 1 ? "Last day" : "Closed";
+  document.querySelectorAll("[data-countdown]").forEach((el) => { el.textContent = countdown; });
+  document.querySelectorAll("[data-countdown-pill]").forEach((el) => { el.textContent = daysLeft >= 1 ? `Ends in ${daysLeft} day${daysLeft === 1 ? "" : "s"}` : "Closed"; });
+  if (now >= Date.parse(JAEMI_SETTINGS.liveFrom)) document.querySelectorAll("[data-live-pill]").forEach((el) => { el.textContent = "On YouTube now"; });
 
   /* ---------- Pause motion ---------- */
   const toggle = $("#motion-toggle");
@@ -75,7 +104,7 @@ const JAEMI_SETTINGS = {
 
   /* ---------- Boot sequence (once per page load) ---------- */
   body.classList.add("booting");
-  setTimeout(() => say(`${hello} Welcome to Jaemi Space. Tap me to chat.`), moving() ? 1500 : 0);
+  setTimeout(() => say(inSeason ? `${hello} I’m Jambot. Merry Christmas from Jaemi Space! 🎄` : `${hello} I’m Jambot. Welcome to Jaemi Space!`), moving() ? 1500 : 0);
   setTimeout(() => body.classList.remove("booting"), 2600);
 
   /* ---------- Eye colour follows the space you are in ---------- */
@@ -230,21 +259,21 @@ const JAEMI_SETTINGS = {
   };
 
   // Basic mode: a short list of answers, checked in order.
-  const soonList = "Coming soon: Jaemi Shop, everyday AI lessons, Mino Boxing, sign-ups for updates, Instagram and TikTok, and my full AI brain.";
+  const soonList = "🛠️ Coming soon: Jaemi Shop, everyday AI lessons, Mino Boxing, sign-ups for updates, Instagram and TikTok, and my full AI brain.";
   const brain = [
     [/shop|store|order|deliver|phone part|parts|checkout|商店|網店|訂購/i, () => ["Jaemi Shop is coming soon: robots, mobile phone parts and imported finds. Nothing is for sale yet. Until then, the robot buying guide shows robots you can buy elsewhere.", [["Robot buying guide", L.robots]]]],
-    [/robot|humanoid|unitree|buy|price|cost|機械人|機器人|買/i, () => ["The robot buying guide lists robots you can actually buy, with real prices and where each one ships.", [["Open the guide", L.robots], ["Mino AI News", L.mino]]]],
-    [/jazz|music|relax|chill|bossa|cafe|café|study music|爵士|音樂/i, () => ["Jamie’s Jazz Rooms has jazz, bossa nova and café moods for slowing down.", [["Jamie’s Jazz Rooms", L.jazz], ["Christmas film", L.film]]]],
-    [/\bcat\b|cats|clocked|milo|貓/i, () => ["Clocked Out Cats is our cat channel: human problems, cat attitude. Short animated comedy starring Milo the cat.", [["Clocked Out Cats", L.cat]]]],
-    [/giveaway|christmas|xmas|prize|win|聖誕|抽獎/i, () => [giveawayOpen ? "The Christmas giveaway is open until 10 December 2026. Comment on our Christmas film to enter; the rules page has the details." : "The Christmas giveaway has closed. The rules page has the details.", [["Giveaway rules", L.giveaway], ["Christmas film", L.film]]]],
-    [/\bai\b|news|tech|mino|gadget|人工智能|新聞/i, () => ["Mino AI News covers AI discoveries and robots worth knowing about.", [["Mino AI News", L.mino]]]],
+    [/robot|humanoid|unitree|buy|price|cost|機械人|機器人|買/i, () => ["🤖 The robot buying guide lists robots you can actually buy, with real prices and where each one ships.", [["Open the guide", L.robots], ["Mino AI News", L.mino]]]],
+    [/jazz|music|relax|chill|bossa|cafe|café|study music|爵士|音樂/i, () => ["🎷 Jamie’s Jazz Rooms has jazz, bossa nova and café moods for slowing down.", [["Jamie’s Jazz Rooms", L.jazz], ["Christmas film", L.film]]]],
+    [/\bcat\b|cats|clocked|milo|貓/i, () => ["🐱 Clocked Out Cats is our cat channel: human problems, cat attitude. Short animated comedy starring Milo the cat.", [["Clocked Out Cats", L.cat]]]],
+    [/giveaway|christmas|xmas|prize|win|live|stream|聖誕|抽獎|直播/i, () => [giveawayOpen ? "🎄 It’s Christmas at Jaemi Space! Watch our Christmas film, and comment your favourite song in it (and who you’d play it for) to enter the giveaway. It closes on 10 December 2026. Christmas live streams are on Jamie’s Jazz Rooms too. 🎁" : "🎄 Our Christmas film is still playing, and Christmas live streams are on Jamie’s Jazz Rooms. The giveaway has closed; the rules page has the details.", [["Christmas film", L.film], ["Giveaway rules", L.giveaway], ["Live streams", `${L.jazz}/streams`]]]],
+    [/\bai\b|news|tech|mino|gadget|人工智能|新聞/i, () => ["🛰️ Mino AI News covers AI discoveries and robots worth knowing about.", [["Mino AI News", L.mino]]]],
     [/learn|course|lesson|class|teach|study|school|課程|學/i, () => ["Everyday AI lessons are coming soon, for individuals and groups. No courses are open yet.", [["See the plans", "#bench-learn"]]]],
     [/sign ?up|newsletter|email|updates|notify|waiting list|waitlist|subscribe|訂閱|登記/i, () => ["Sign-ups are coming soon. No form is switched on yet, so please don’t share your email or other details here. You can subscribe to our YouTube channels today.", [["Mino AI News", `${L.mino}?sub_confirmation=1`], ["Jamie’s Jazz Rooms", `${L.jazz}?sub_confirmation=1`]]]],
     [/coming|soon|next|new|plan|roadmap|即將|將來/i, () => [soonList, [["See the workbench", "#workbench"]]]],
     [/jaemi|재미|mean|name|意思/i, () => ["재미 (jaemi) means fun in Korean. That’s the whole idea: fun living, fun learning, fun every day.", []]],
-    [/who are you|what are you|are you (a )?(real|human|person|ai|bot)|你是誰|你係邊個/i, () => ["I’m the Jaemi Space robot, a friendly host. I’m not a person, and right now I’m in basic mode: I answer from a short list. My full AI brain is coming soon.", []]],
+    [/who are you|what are you|are you (a )?(real|human|person|ai|bot)|你是誰|你係邊個/i, () => ["I’m Jambot, the friendly robot host of Jaemi Space. I’m not a person, and right now I’m in basic mode: I answer from a short list. My full AI brain is coming soon.", []]],
     [/contact|human|person|help|support|聯絡|幫/i, () => ["A contact option is coming soon. For now, the best way to reach us is a comment on our YouTube videos.", [["Mino AI News", L.mino], ["Jamie’s Jazz Rooms", L.jazz]]]],
-    [/thank|cheers|\bta\b|謝|多謝|唔該/i, () => ["Any time. Beep boop.", []]],
+    [/thank|cheers|\bta\b|謝|多謝|唔該/i, () => ["Any time. Beep boop. 💚", []]],
     [/^(hi|hello|hey|yo|hiya|morning|你好|哈囉|hi there)\b/i, () => ["Hi! I can show you robots you can buy, jazz to relax to, AI news, cat comedy and what’s coming soon. What are you curious about?", []]]
   ];
   const basicReply = (text) => {
@@ -283,7 +312,7 @@ const JAEMI_SETTINGS = {
     if (dock) dock.hidden = true;
     if (!greeted) {
       greeted = true;
-      addMsg("bot", `${hello} I’m the Jaemi Space robot. I can show you robots you can buy, jazz to relax to, AI news, cat comedy and what’s coming soon. What are you curious about?`);
+      addMsg("bot", `${hello} I’m Jambot 🤖 I can show you robots you can buy, jazz to relax to, AI news, cat comedy${inSeason ? ", our Christmas film and giveaway 🎄" : ""} and what’s coming soon. What are you curious about?`);
     }
     if (moving() && chat.animate) chat.animate([{ transform: "translateY(24px)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 260, easing: "cubic-bezier(.3,1.3,.5,1)" });
     if (matchMedia("(pointer: fine)").matches) input.focus(); else $("#chat-close").focus();
@@ -299,11 +328,10 @@ const JAEMI_SETTINGS = {
   if (heroBot) heroBot.addEventListener("click", () => {
     heroBot.classList.remove("wave-hi"); void heroBot.offsetWidth; heroBot.classList.add("wave-hi");
     beHappy();
-    say("Hi! Ask me anything about Jaemi Space.");
+    say("Hi, I’m Jambot! Ask me anything. 💬");
     setTimeout(() => openChat(heroBot), moving() ? 450 : 0);
   });
-  const chatBtn = $("#bot-chat");
-  if (chatBtn) { chatBtn.hidden = false; chatBtn.addEventListener("click", () => openChat(chatBtn)); }
+  document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => openChat(b)));
   if (dock) dock.addEventListener("click", () => openChat(dock));
   $("#menu-chat")?.addEventListener("click", () => { setMenu(false); openChat($("#menu-btn")); });
   $("#chat-close")?.addEventListener("click", closeChat);

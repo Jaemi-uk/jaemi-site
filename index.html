@@ -35,6 +35,7 @@
       <span class="brand-word"><b>jaemi</b> space</span>
     </a>
     <nav class="nav-inline" aria-label="Main">
+      <a class="nav-hot" href="#christmas" data-show-until="2027-01-01T00:00:00Z">Christmas</a>
       <a href="#watch">Watch</a>
       <a href="#learn">Learn</a>
       <a href="#discover">Discover</a>
@@ -50,6 +51,7 @@
 
 <div class="menu" id="menu" hidden>
   <div class="menu-inner">
+    <a class="menu-hot" href="#christmas" data-show-until="2027-01-01T00:00:00Z"><span class="menu-hot-star" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 6.4L21 9l-5 4.4L17.5 20 12 16.6 6.5 20 8 13.4 3 9l6.4-.6z"/></svg></span><span><b>Christmas at Jaemi Space</b><small>Film, giveaway and live streams</small></span></a>
     <p class="menu-group">Three spaces</p>
     <ul class="menu-spaces">
       <li><a href="#watch" style="--accent:var(--mint)"><span class="menu-dot"></span><span><b>Watch &amp; Enjoy</b><small>Our three YouTube channels</small></span></a></li>
@@ -63,7 +65,7 @@
       <li><a href="/games/XmasTnC/" data-giveaway><span>Christmas giveaway</span><span class="pill pill-live" data-giveaway-pill>Open</span></a></li>
       <li><a href="#workbench"><span>Shop and lessons</span><span class="pill pill-soon">Coming soon</span></a></li>
     </ul>
-    <button class="btn btn-primary menu-chat" type="button" id="menu-chat"><span class="dot" aria-hidden="true"></span>Chat with the robot</button>
+    <button class="btn btn-primary menu-chat" type="button" id="menu-chat"><span class="dot" aria-hidden="true"></span>Chat with Jambot</button>
     <p class="menu-group">On YouTube</p>
     <div class="menu-yt">
       <a href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener">Mino AI News</a>
@@ -75,69 +77,87 @@
 
 <main>
   <section class="hero" data-accent="mint" aria-labelledby="hero-title">
+    <div class="snow" aria-hidden="true"><i style="--x:4%;--d:-2s;--w:11s;--s:3px"></i><i style="--x:12%;--d:-7s;--w:14s;--s:2px"></i><i style="--x:21%;--d:-4s;--w:10s;--s:4px"></i><i style="--x:29%;--d:-9s;--w:13s;--s:2px"></i><i style="--x:38%;--d:-1s;--w:12s;--s:3px"></i><i style="--x:46%;--d:-6s;--w:15s;--s:2px"></i><i style="--x:55%;--d:-3s;--w:11s;--s:3px"></i><i style="--x:63%;--d:-8s;--w:13s;--s:2px"></i><i style="--x:71%;--d:-5s;--w:10s;--s:4px"></i><i style="--x:79%;--d:-10s;--w:14s;--s:2px"></i><i style="--x:87%;--d:-2s;--w:12s;--s:3px"></i><i style="--x:95%;--d:-7s;--w:11s;--s:2px"></i></div>
     <div class="hero-bot">
       <p class="bubble" id="bubble" aria-live="polite">Hello! Welcome to Jaemi Space.</p>
-      <button class="bot-button" type="button" id="bot" aria-label="Chat with the Jaemi Space robot" aria-describedby="bubble">
-        <svg class="bot" viewBox="0 0 420 380" aria-hidden="true">
-          <defs>
-            <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#F4F7FF"/>
-              <stop offset=".5" stop-color="#B4C2DE"/>
-              <stop offset="1" stop-color="#5A6B90"/>
-            </linearGradient>
-            <radialGradient id="glow" cx=".5" cy=".5" r=".5">
-              <stop offset="0" stop-color="currentColor" stop-opacity=".35"/>
-              <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <g class="hud" fill="none" stroke-width="2">
-            <path d="M44 70V44h26M376 70V44h-26M44 300v26h26M376 300v26h-26"/>
-          </g>
-          <circle class="orbit" cx="210" cy="180" r="148" fill="none" stroke="#2A3768" stroke-dasharray="3 11"/>
-          <circle class="orbit-sat" cx="210" cy="32" r="5"/>
-          <ellipse cx="210" cy="350" rx="132" ry="14" fill="#101A3E"/>
-          <g class="body-float">
-            <circle class="face-glow" cx="210" cy="135" r="120" fill="url(#glow)"/>
-            <!-- antenna -->
-            <path d="M210 72V48" stroke="#A6B6D6" stroke-width="7" stroke-linecap="round"/>
-            <circle class="antenna-dot" cx="210" cy="40" r="10"/>
-            <!-- resting arm -->
-            <path d="M152 240q-40 18-40 54" fill="none" stroke="#A9B8D2" stroke-width="22" stroke-linecap="round"/>
-            <circle cx="112" cy="298" r="16" fill="url(#metal)"/>
-            <!-- body -->
-            <rect x="148" y="212" width="124" height="104" rx="40" fill="url(#metal)"/>
-            <rect x="164" y="232" width="92" height="52" rx="18" fill="#071028"/>
-            <path class="pulse" d="M174 259h18l8-13 10 25 9-14h27" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <rect x="188" y="190" width="44" height="30" rx="10" fill="#7C8CAE"/>
-            <!-- waving arm -->
-            <g class="arm">
-              <path d="M268 240q46 6 54-44" fill="none" stroke="#A9B8D2" stroke-width="22" stroke-linecap="round"/>
-              <g transform="rotate(14 324 176)">
-                <rect x="306" y="152" width="34" height="44" rx="15" fill="url(#metal)"/>
-                <path d="M310 160l-7-16M318 155l-3-22M327 155l4-21M336 161l9-15" stroke="#CDD7EA" stroke-width="7" stroke-linecap="round"/>
+      <div class="bot-stage">
+        <ul class="pods pods-left" aria-label="Featured now">
+          <li data-show-until="2027-01-01T00:00:00Z"><a class="pod pod-hot" href="#christmas" style="--accent:var(--amber)"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="4"/><path class="fill" d="M10.5 9.2v5.6l4.6-2.8z"/></svg></span><span class="pod-label">Christmas jazz</span><span class="pod-sub">Watch now</span></a></li>
+          <li data-show-from="2027-01-01T00:00:00Z" hidden><a class="pod" href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener" style="--accent:var(--amber)"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></span><span class="pod-label">Jazz to relax</span><span class="pod-sub">On YouTube</span></a></li>
+          <li data-show-until="2026-12-11T00:00:00Z"><a class="pod pod-hot" href="#christmas" style="--accent:var(--mint)"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M3 7h18v3H3zM12 7v13"/><path d="M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/></svg></span><span class="pod-label">Giveaway</span><span class="pod-sub"><span data-countdown>Ends 10 Dec</span></span></a></li>
+          <li data-show-from="2026-12-11T00:00:00Z" hidden><a class="pod" href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener" style="--accent:var(--lilac)"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20c0-6 3-9 8-9s8 3 8 9z"/><path d="M6 12L5 5l5 4M18 12l1-7-5 4"/></svg></span><span class="pod-label">Cat comedy</span><span class="pod-sub">On YouTube</span></a></li>
+        </ul>
+        <button class="bot-button" type="button" id="bot" aria-label="Chat with Jambot" aria-describedby="bubble">
+          <svg class="bot" viewBox="0 0 420 380" aria-hidden="true">
+            <defs>
+              <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#F4F7FF"/>
+                <stop offset=".5" stop-color="#B4C2DE"/>
+                <stop offset="1" stop-color="#5A6B90"/>
+              </linearGradient>
+              <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+                <stop offset="0" stop-color="currentColor" stop-opacity=".35"/>
+                <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <g class="hud" fill="none" stroke-width="2">
+              <path d="M44 70V44h26M376 70V44h-26M44 300v26h26M376 300v26h-26"/>
+            </g>
+            <circle class="orbit" cx="210" cy="180" r="148" fill="none" stroke="#2A3768" stroke-dasharray="3 11"/>
+            <circle class="orbit-sat" cx="210" cy="32" r="5"/>
+            <ellipse cx="210" cy="350" rx="132" ry="14" fill="#101A3E"/>
+            <g class="body-float">
+              <circle class="face-glow" cx="210" cy="135" r="120" fill="url(#glow)"/>
+              <!-- antenna -->
+              <path d="M210 72V48" stroke="#A6B6D6" stroke-width="7" stroke-linecap="round"/>
+              <circle class="antenna-dot" cx="210" cy="40" r="10"/>
+              <!-- resting arm -->
+              <path d="M152 240q-40 18-40 54" fill="none" stroke="#A9B8D2" stroke-width="22" stroke-linecap="round"/>
+              <circle cx="112" cy="298" r="16" fill="url(#metal)"/>
+              <!-- body -->
+              <rect x="148" y="212" width="124" height="104" rx="40" fill="url(#metal)"/>
+              <rect x="164" y="232" width="92" height="52" rx="18" fill="#071028"/>
+              <path class="pulse" d="M174 259h18l8-13 10 25 9-14h27" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="188" y="190" width="44" height="30" rx="10" fill="#7C8CAE"/>
+              <!-- waving arm -->
+              <g class="arm">
+                <path d="M268 240q46 6 54-44" fill="none" stroke="#A9B8D2" stroke-width="22" stroke-linecap="round"/>
+                <g transform="rotate(14 324 176)">
+                  <rect x="306" y="152" width="34" height="44" rx="15" fill="url(#metal)"/>
+                  <path d="M310 160l-7-16M318 155l-3-22M327 155l4-21M336 161l9-15" stroke="#CDD7EA" stroke-width="7" stroke-linecap="round"/>
+                </g>
               </g>
+              <!-- head -->
+              <rect x="104" y="114" width="16" height="44" rx="8" fill="#97A8C8"/>
+              <rect x="300" y="114" width="16" height="44" rx="8" fill="#97A8C8"/>
+              <rect x="116" y="72" width="188" height="128" rx="54" fill="url(#metal)"/>
+              <rect class="visor" x="132" y="89" width="156" height="94" rx="38" fill="#071028"/>
+              <rect class="scan" x="140" y="92" width="140" height="3" rx="1.5"/>
+              <g class="eyes">
+                <g class="eye-l"><ellipse class="eye eye-open" cx="176" cy="130" rx="15" ry="20"/><path class="eye-happy" d="M161 134q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
+                <g class="eye-r"><ellipse class="eye eye-open" cx="244" cy="130" rx="15" ry="20"/><path class="eye-happy" d="M229 134q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
+              </g>
+              <g class="xmas-hat">
+                <path d="M226 78Q246 22 306 40Q298 58 304 86Z" fill="#E5484D"/>
+                <path d="M240 50q26-14 58-8" fill="none" stroke="#ffffff33" stroke-width="5" stroke-linecap="round"/>
+                <rect x="216" y="70" width="98" height="20" rx="10" fill="#F4F7FF" transform="rotate(10 265 80)"/>
+                <circle cx="309" cy="40" r="11" fill="#F4F7FF"/>
+              </g>
+              <ellipse cx="152" cy="160" rx="10" ry="5" fill="#B9A4FF" opacity=".35"/>
+              <ellipse cx="268" cy="160" rx="10" ry="5" fill="#B9A4FF" opacity=".35"/>
+              <path class="mouth" d="M193 160q17 13 34 0" fill="none" stroke-width="4" stroke-linecap="round"/>
             </g>
-            <!-- head -->
-            <rect x="104" y="114" width="16" height="44" rx="8" fill="#97A8C8"/>
-            <rect x="300" y="114" width="16" height="44" rx="8" fill="#97A8C8"/>
-            <rect x="116" y="72" width="188" height="128" rx="54" fill="url(#metal)"/>
-            <rect class="visor" x="132" y="89" width="156" height="94" rx="38" fill="#071028"/>
-            <rect class="scan" x="140" y="92" width="140" height="3" rx="1.5"/>
-            <g class="eyes">
-              <g class="eye-l"><ellipse class="eye eye-open" cx="176" cy="130" rx="15" ry="20"/><path class="eye-happy" d="M161 134q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
-              <g class="eye-r"><ellipse class="eye eye-open" cx="244" cy="130" rx="15" ry="20"/><path class="eye-happy" d="M229 134q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
+            <g class="sparks" stroke-width="2" stroke-linecap="round">
+              <path d="M74 112v18M65 121h18"/>
+              <path d="M356 268v14M349 275h14"/>
             </g>
-            <ellipse cx="152" cy="160" rx="10" ry="5" fill="#B9A4FF" opacity=".35"/>
-            <ellipse cx="268" cy="160" rx="10" ry="5" fill="#B9A4FF" opacity=".35"/>
-            <path class="mouth" d="M193 160q17 13 34 0" fill="none" stroke-width="4" stroke-linecap="round"/>
-          </g>
-          <g class="sparks" stroke-width="2" stroke-linecap="round">
-            <path d="M74 112v18M65 121h18"/>
-            <path d="M356 268v14M349 275h14"/>
-          </g>
-        </svg>
-      </button>
-      <button class="bot-chat" type="button" id="bot-chat" hidden><span class="dot" aria-hidden="true"></span>Chat with the robot</button>
+          </svg>
+        </button>
+        <ul class="pods pods-right" aria-label="Quick links">
+          <li><a class="pod" href="/robots/" style="--accent:var(--mint)"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="5"/><path d="M12 3v4"/><circle class="fill" cx="9.5" cy="13" r="1.5"/><circle class="fill" cx="14.5" cy="13" r="1.5"/></svg></span><span class="pod-label">Robot guide</span><span class="pod-sub">Live</span></a></li>
+          <li class="js-only" hidden><button class="pod" type="button" style="--accent:var(--lilac)" data-open-chat><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span><span class="pod-label">Jambot</span><span class="pod-sub">Ask me</span></button></li>
+        </ul>
+      </div>
     </div>
 
     <div class="hero-copy">
@@ -149,6 +169,48 @@
         <a class="btn btn-ghost" href="/robots/">Open the robot buying guide</a>
       </div>
       <p class="meaning"><span lang="ko">재미</span> (jaemi) means <em>fun</em> in Korean. That’s the whole plan.</p>
+    </div>
+  </section>
+
+  <section class="spotlight" id="christmas" data-accent="amber" data-show-until="2027-01-01T00:00:00Z" aria-labelledby="xmas-title">
+    <div class="spot-inner">
+      <div class="spot-lights" aria-hidden="true"><svg viewBox="0 0 1200 40" preserveAspectRatio="xMidYMin slice"><path d="M0 4 Q30 22 60 4 Q90 22 120 4 Q150 22 180 4 Q210 22 240 4 Q270 22 300 4 Q330 22 360 4 Q390 22 420 4 Q450 22 480 4 Q510 22 540 4 Q570 22 600 4 Q630 22 660 4 Q690 22 720 4 Q750 22 780 4 Q810 22 840 4 Q870 22 900 4 Q930 22 960 4 Q990 22 1020 4 Q1050 22 1080 4 Q1110 22 1140 4 Q1170 22 1200 4" fill="none" stroke="#2E3B66" stroke-width="2"/><g class="bulb" style="color:#FF5C7A"><rect x="27" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="30" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#FFD27A"><rect x="87" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="90" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#3DDC84"><rect x="147" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="150" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#7CC8FF"><rect x="207" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="210" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#B9A4FF"><rect x="267" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="270" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#FF5C7A"><rect x="327" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="330" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#FFD27A"><rect x="387" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="390" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#3DDC84"><rect x="447" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="450" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#7CC8FF"><rect x="507" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="510" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#B9A4FF"><rect x="567" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="570" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#FF5C7A"><rect x="627" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="630" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#FFD27A"><rect x="687" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="690" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#3DDC84"><rect x="747" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="750" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#7CC8FF"><rect x="807" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="810" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#B9A4FF"><rect x="867" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="870" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#FF5C7A"><rect x="927" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="930" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#FFD27A"><rect x="987" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="990" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#3DDC84"><rect x="1047" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="1050" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#7CC8FF"><rect x="1107" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="1110" cy="22" rx="5" ry="7" fill="currentColor"/></g><g class="bulb" style="color:#B9A4FF"><rect x="1167" y="12" width="6" height="5" rx="1" fill="#5A6B90"/><ellipse cx="1170" cy="22" rx="5" ry="7" fill="currentColor"/></g></svg></div>
+      <svg class="spot-deco spot-holly" viewBox="0 0 80 64" aria-hidden="true"><path d="M40 34C30 10 12 12 6 18c8 2 8 10 14 10-6 4-4 12-10 14 8 6 24 4 30-8z" fill="#3DDC84"/><path d="M40 34c10-24 28-22 34-16-8 2-8 10-14 10 6 4 4 12 10 14-8 6-24 4-30-8z" fill="#2AAE68"/><path d="M40 34L14 22M40 34l26-12" stroke="#1E7F4C" stroke-width="1.5" fill="none"/><circle cx="34" cy="38" r="6" fill="#FF5C7A"/><circle cx="46" cy="37" r="6" fill="#E5484D"/><circle cx="40" cy="30" r="5.5" fill="#FF7A92"/><circle cx="32" cy="36" r="1.6" fill="#fff" opacity=".7"/></svg>
+      <svg class="spot-deco spot-poin" viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="60" cy="22" rx="10" ry="24" fill="#2AAE68" transform="rotate(22 60 60)"/><ellipse cx="60" cy="22" rx="10" ry="24" fill="#3DDC84" transform="rotate(-70 60 60)"/><ellipse cx="60" cy="30" rx="11" ry="27" fill="#FF5C7A" transform="rotate(0 60 60)"/><ellipse cx="60" cy="30" rx="11" ry="27" fill="#E5484D" transform="rotate(45 60 60)"/><ellipse cx="60" cy="30" rx="11" ry="27" fill="#FF5C7A" transform="rotate(90 60 60)"/><ellipse cx="60" cy="30" rx="11" ry="27" fill="#E5484D" transform="rotate(135 60 60)"/><ellipse cx="60" cy="30" rx="11" ry="27" fill="#FF5C7A" transform="rotate(180 60 60)"/><ellipse cx="60" cy="30" rx="11" ry="27" fill="#E5484D" transform="rotate(225 60 60)"/><ellipse cx="60" cy="30" rx="11" ry="27" fill="#FF5C7A" transform="rotate(270 60 60)"/><ellipse cx="60" cy="30" rx="11" ry="27" fill="#E5484D" transform="rotate(315 60 60)"/><circle cx="60" cy="60" r="6" fill="#FFD27A"/><circle cx="54" cy="56" r="3" fill="#FFE7A8"/><circle cx="66" cy="57" r="3" fill="#FFE7A8"/><circle cx="60" cy="66" r="3" fill="#FFE7A8"/></svg>
+      <div class="spot-head">
+        <p class="spot-kicker"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.6 6.4L21 9l-5 4.4L17.5 20 12 16.6 6.5 20 8 13.4 3 9l6.4-.6z"/></svg>This Christmas</p>
+        <h2 id="xmas-title">Christmas at Jaemi Space <span aria-hidden="true">✨</span></h2>
+        <p>Jazz for cosy nights, a giveaway and live streams, all in one place.</p>
+      </div>
+      <div class="spot-grid">
+        <a class="spot-film" href="https://www.youtube.com/watch?v=zZaZsq8hqIM" target="_blank" rel="noopener">
+          <span class="spot-thumb">
+            <img src="https://i.ytimg.com/vi/zZaZsq8hqIM/hqdefault.jpg" alt="" loading="lazy" width="480" height="360" onerror="this.remove()">
+            <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
+          </span>
+          <span class="spot-film-text">
+            <b>Christmas Jazz Around the World</b>
+            <small>Our full Christmas film on Jamie’s Jazz Rooms</small>
+          </span>
+        </a>
+        <article class="spot-card" data-show-until="2026-12-11T00:00:00Z">
+          <p class="spot-top"><span class="spot-emoji" aria-hidden="true">🎁</span><span class="pill pill-hot" data-countdown-pill>Ends 10 Dec</span></p>
+          <h3>Win a mystery Christmas gift</h3>
+          <p>Comment on the film with your favourite song in it, and who you’d play it for. Free to enter, 18+, rules apply.</p>
+          <div class="spot-actions">
+            <a class="btn btn-small btn-gold" href="https://www.youtube.com/watch?v=zZaZsq8hqIM" target="_blank" rel="noopener">Comment on the film</a>
+            <a class="btn btn-small btn-ghost" href="/games/XmasTnC/">Read the rules</a>
+          </div>
+        </article>
+        <article class="spot-card">
+          <p class="spot-top"><span class="spot-emoji" aria-hidden="true">🎄</span><span class="pill pill-hot" data-live-pill>From Mon 30 Nov</span></p>
+          <h3>Christmas live streams</h3>
+          <p>Live Christmas jazz on Jamie’s Jazz Rooms. Leave it playing while you wrap presents.</p>
+          <div class="spot-actions">
+            <a class="btn btn-small btn-ghost" href="https://www.youtube.com/@JamiesJazzRooms/streams" target="_blank" rel="noopener">See live streams</a>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -185,11 +247,11 @@
         </div>
         <p class="space-text">AI and robot guides from Mino AI News, calm moods from Jamie’s Jazz Rooms and cat comedy from Clocked Out Cats.</p>
         <ul class="rows">
-          <li><a class="row" href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener"><span class="row-text"><b>Mino AI News</b><small>AI and robots on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
-          <li><a class="row" href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener"><span class="row-text"><b>Jamie’s Jazz Rooms</b><small>Jazz and bossa nova on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
-          <li><a class="row" href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener"><span class="row-text"><b>Clocked Out Cats</b><small>Animated cat comedy on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
-          <li><a class="row" href="https://www.youtube.com/watch?v=zZaZsq8hqIM" target="_blank" rel="noopener"><span class="row-text"><b>Christmas Jazz Around the World</b><small>Our full Christmas film</small></span><span class="pill pill-live">Watch</span></a></li>
-          <li><a class="row" href="/games/XmasTnC/" data-giveaway><span class="row-text"><b>Christmas giveaway</b><small>Comment on the film to enter</small></span><span class="pill pill-live" data-giveaway-pill>Open to 10 Dec</span></a></li>
+          <li><a class="row" href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="5"/><path d="M12 3v4"/><circle class="fill" cx="9.5" cy="13" r="1.5"/><circle class="fill" cx="14.5" cy="13" r="1.5"/></svg></span><span class="row-text"><b>Mino AI News</b><small>AI and robots on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
+          <li><a class="row" href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></span><span class="row-text"><b>Jamie’s Jazz Rooms</b><small>Jazz and bossa nova on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
+          <li><a class="row" href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20c0-6 3-9 8-9s8 3 8 9z"/><path d="M6 12L5 5l5 4M18 12l1-7-5 4"/></svg></span><span class="row-text"><b>Clocked Out Cats</b><small>Animated cat comedy on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
+          <li data-show-until="2027-01-01T00:00:00Z"><a class="row" href="https://www.youtube.com/watch?v=zZaZsq8hqIM" target="_blank" rel="noopener"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="4"/><path class="fill" d="M10.5 9.2v5.6l4.6-2.8z"/></svg></span><span class="row-text"><b>Christmas Jazz Around the World</b><small>Our full Christmas film</small></span><span class="pill pill-live">Watch</span></a></li>
+          <li data-show-until="2027-01-01T00:00:00Z"><a class="row" href="/games/XmasTnC/" data-giveaway><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M3 7h18v3H3zM12 7v13"/><path d="M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/></svg></span><span class="row-text"><b>Christmas giveaway</b><small>Comment on the film to enter</small></span><span class="pill pill-live" data-giveaway-pill>Open to 10 Dec</span></a></li>
         </ul>
       </article>
 
@@ -200,9 +262,9 @@
         </div>
         <p class="space-text">Make AI part of everyday life, with practical lessons, playful experiments and new skills.</p>
         <ul class="rows">
-          <li><a class="row row-plan" href="#bench-learn"><span class="row-text"><b>Everyday AI lessons</b><small>Courses for beginners and groups</small></span><span class="pill pill-soon">Coming soon</span></a></li>
-          <li><div class="row row-plan"><span class="row-text"><b>Mino Boxing</b><small>A free robot boxing game for your phone</small></span><span class="pill pill-soon">Coming soon</span></div></li>
-          <li><a class="row row-plan" href="#bench-join"><span class="row-text"><b>Course waiting list</b><small>Join to hear when lessons open</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><a class="row row-plan" href="#bench-learn"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l9 5-9 5-9-5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></span><span class="row-text"><b>Everyday AI lessons</b><small>Courses for beginners and groups</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><div class="row row-plan"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 12V8a5 5 0 0 1 10 0v2h1a2 2 0 0 1 0 4l-2 5H8z"/><path d="M8 19h8M11 9h4"/></svg></span><span class="row-text"><b>Mino Boxing</b><small>A free robot boxing game for your phone</small></span><span class="pill pill-soon">Coming soon</span></div></li>
+          <li><a class="row row-plan" href="#bench-join"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><span class="row-text"><b>Course waiting list</b><small>Join to hear when lessons open</small></span><span class="pill pill-soon">Coming soon</span></a></li>
         </ul>
       </article>
 
@@ -213,9 +275,9 @@
         </div>
         <p class="space-text">Good, fun, exciting finds: robots, mobile phone parts and imported discoveries.</p>
         <ul class="rows">
-          <li><a class="row" href="/robots/"><span class="row-text"><b>Robot buying guide</b><small>Real prices and where each robot ships</small></span><span class="pill pill-live">Live</span></a></li>
-          <li><a class="row row-plan" href="#bench-shop"><span class="row-text"><b>Jaemi Shop</b><small>Robots, phone parts and imported finds</small></span><span class="pill pill-soon">Coming soon</span></a></li>
-          <li><a class="row row-plan" href="#bench-join"><span class="row-text"><b>Tell me when it lands</b><small>Alerts for new robots and finds</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><a class="row" href="/robots/"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="5"/><path d="M12 3v4"/><circle class="fill" cx="9.5" cy="13" r="1.5"/><circle class="fill" cx="14.5" cy="13" r="1.5"/></svg></span><span class="row-text"><b>Robot buying guide</b><small>Real prices and where each robot ships</small></span><span class="pill pill-live">Live</span></a></li>
+          <li><a class="row row-plan" href="#bench-shop"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><span class="row-text"><b>Jaemi Shop</b><small>Robots, phone parts and imported finds</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><a class="row row-plan" href="#bench-join"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><span class="row-text"><b>Tell me when it lands</b><small>Alerts for new robots and finds</small></span><span class="pill pill-soon">Coming soon</span></a></li>
         </ul>
       </article>
     </div>
@@ -270,12 +332,12 @@
           <li data-state="on"><span class="led"></span><span>YouTube channels</span><b>3 linked</b></li>
           <li data-state="on"><span class="led"></span><span>Robot buying guide</span><b>Live</b></li>
           <li data-state="on" data-giveaway-diag><span class="led"></span><span>Christmas giveaway</span><b>Open</b></li>
-          <li data-state="on" data-chat-diag><span class="led"></span><span>Robot chat</span><b>Basic</b></li>
+          <li data-state="on" data-chat-diag><span class="led"></span><span>Jambot chat</span><b>Basic</b></li>
           <li data-state="soon"><span class="led"></span><span>Jaemi Shop</span><b>Soon</b></li>
           <li data-state="soon"><span class="led"></span><span>Learning space</span><b>Soon</b></li>
           <li data-state="soon" data-signup-diag><span class="led"></span><span>Sign-ups</span><b>Soon</b></li>
           <li data-state="soon"><span class="led"></span><span>Instagram and TikTok</span><b>Soon</b></li>
-          <li data-state="soon"><span class="led"></span><span>Full AI robot brain</span><b>Soon</b></li>
+          <li data-state="soon"><span class="led"></span><span>Jambot’s full AI brain</span><b>Soon</b></li>
         </ul>
       </div>
 
@@ -316,7 +378,7 @@
   </section>
 </main>
 
-<button class="dock" id="dock" type="button" hidden aria-label="Chat with the Jaemi Space robot">
+<button class="dock" id="dock" type="button" hidden aria-label="Chat with Jambot">
   <svg viewBox="0 0 64 80" aria-hidden="true">
     <path class="flame" d="M24 62q8 22 16 0q-8 6-16 0z"/>
     <line x1="32" y1="4" x2="32" y2="12" stroke="#A6B6D6" stroke-width="3" stroke-linecap="round"/>
@@ -332,7 +394,7 @@
   <div class="chat-head">
     <img src="/assets/favicon.svg" width="36" height="36" alt="">
     <div class="chat-who">
-      <p class="chat-title" id="chat-title">Jaemi robot</p>
+      <p class="chat-title" id="chat-title">Jambot <span aria-hidden="true">🤖</span></p>
       <p class="chat-mode" id="chat-mode">Basic mode: I answer from a short list. Full AI chat is coming soon.</p>
     </div>
     <button class="chat-close" type="button" id="chat-close" aria-label="Close chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -367,7 +429,7 @@
       <a href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener">Clocked Out Cats</a>
     </nav>
     <div class="foot-end">
-      <span>© 2026 Jaemi Space, jaemi.uk. All rights reserved. The robot is an original illustration, not a product for sale. This page uses no tracking cookies.</span>
+      <span>© 2026 Jaemi Space, jaemi.uk. All rights reserved. Jambot is an original character, not a product for sale. This page uses no tracking cookies.</span>
       <button class="motion-toggle" type="button" id="motion-toggle" aria-pressed="false">Pause motion</button>
     </div>
   </div>
