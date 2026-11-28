@@ -487,7 +487,10 @@ a.row:active { background: #0D1740; }
 
   /* Responses to the visitor */
   .bot .eyes { transition: transform .18s ease-out; }
-  html.js:not(.still) .wave-hi .arm { transform-origin: 270px 240px; animation: wave .9s ease-in-out 2; }
+  html.js:not(.still) .wave-hi .arm { transform-origin: 248px 254px; animation: wave .9s ease-in-out 2; }
+  html.js:not(.still) .cat-bot .arm { transform-origin: 248px 254px; animation: beckon 5s ease-in-out infinite; }
+  html.js:not(.still) .cat-bot .tail { transform-origin: 262px 320px; animation: swish 3.6s ease-in-out infinite; }
+  html.js:not(.still) .wave-hi .cat-bot .arm { animation: wave .9s ease-in-out 2; }
   .btn-primary:hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--mint) 22%, transparent); }
 }
 .happy .eye-open { opacity: 0; }
@@ -1196,3 +1199,15 @@ html.menu-open { overflow: hidden; }
 .tv { grid-template-columns: minmax(0, 1fr); }
 .tv-bezel, .tv-bar, .tv-remote, .tv-progress { min-width: 0; }
 .tv-progress input { min-width: 0; }
+.join[hidden] { display: none; }
+.join-card { max-width: 640px; padding: 22px; border-radius: var(--r-lg); border: 1px solid var(--line); background: var(--panel); }
+
+/* ---------- Jamcat details ---------- */
+.ear-in { fill: var(--eye); opacity: .55; transition: fill .5s; }
+.whiskers { stroke: var(--eye); opacity: .7; transition: stroke .5s; }
+.collar { stroke: var(--eye); transition: stroke .5s; }
+.bell { fill: var(--gold, #FFD27A); }
+.tail-tip { fill: var(--eye); transition: fill .5s; }
+.pad { fill: #FF8FB1; }
+@keyframes beckon { 0%, 70%, 100% { transform: rotate(0); } 78% { transform: rotate(-14deg); } 86% { transform: rotate(4deg); } 93% { transform: rotate(-10deg); } }
+@keyframes swish { 50% { transform: rotate(-7deg); } }

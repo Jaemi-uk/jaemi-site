@@ -21,5 +21,5 @@ Static site for jaemi.uk (Jaemi Space), served by GitHub Pages behind Cloudflare
 - **HubSpot sign-up:** create the form in HubSpot, then paste its form ID into `JAEMI_SETTINGS.hubspot.formId` at the top of `assets/space.js`. Until then the sign-up stays marked "Not connected" and no HubSpot code loads. Add the HubSpot tracking code only together with a cookie-consent banner.
 - **Robot chat AI:** deploy `workers/robot-chat`, then paste its address into `JAEMI_SETTINGS.chat.endpoint`. Until then the robot runs in basic mode on the visitor's device.
 - **Clocked Out Cat:** add the channel link to `JAEMI_SETTINGS.links.cat`, and swap the "Coming soon" pill on its card in `index.html` for Watch/Subscribe buttons.
-- **Shop and learning:** the "On the workbench" blueprints (`#bench-shop`, `#bench-learn`, `#bench-join`) are the slots to replace once a platform is chosen.
-- **Status labels:** pills use `pill-live`, `pill-soon` or `pill-off`; System check lines use `data-state="on|soon|off"`.
+- **Shop and learning:** the rows marked "Coming soon" in Learn & Try and Discover & Shop are the public teasers; replace them when each part opens.
+- **Status labels:** pills use `pill-live`, `pill-soon` or `pill-off`.

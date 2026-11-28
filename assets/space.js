@@ -13,7 +13,7 @@
                     basic mode: it answers from the list below, on the
                     visitor's own device, and sends nothing anywhere.
    giveawayCloses   When the Christmas giveaway labels switch to "Closed".
-   season           Dates for the seasonal look (Santa hat on Jambot, snow).
+   season           Dates for the seasonal look (Santa hat on Jamcat, snow).
    liveFrom         When the Christmas live streams start.
    tv               What Jaemi TV plays. To promote a different video, change
                     videoId (the part after "watch?v=" in a YouTube link) and
@@ -109,7 +109,7 @@ const JAEMI_SETTINGS = {
 
   /* ---------- Boot sequence (once per page load) ---------- */
   body.classList.add("booting");
-  setTimeout(() => say(inSeason ? "Hi, I’m Jambot! Merry Christmas 🎄" : `${hello} I’m Jambot!`), moving() ? 1500 : 0);
+  setTimeout(() => say(inSeason ? "Hi, I’m Jamcat! Merry Christmas 🎄" : `${hello} I’m Jamcat!`), moving() ? 1500 : 0);
   setTimeout(() => body.classList.remove("booting"), 2600);
 
   /* ---------- Eye colour follows the space you are in ---------- */
@@ -272,13 +272,13 @@ const JAEMI_SETTINGS = {
     [/\bcat\b|cats|clocked|milo|貓/i, () => ["🐱 Clocked Out Cats is our cat channel: human problems, cat attitude. Short animated comedy starring Milo the cat.", [["Clocked Out Cats", L.cat]]]],
     [/giveaway|christmas|xmas|prize|win|live|stream|聖誕|抽獎|直播/i, () => [giveawayOpen ? "🎄 It’s Christmas at Jaemi Space! Watch our Christmas film right here on Jaemi TV 📺, then comment your favourite song in it (and who you’d play it for) to enter the giveaway. It closes on 10 December 2026. Christmas live streams are on Jamie’s Jazz Rooms too. 🎁" : "🎄 Our Christmas film is still playing, and Christmas live streams are on Jamie’s Jazz Rooms. The giveaway has closed; the rules page has the details.", [["Play on Jaemi TV", "#tv"], ["Giveaway rules", L.giveaway], ["Live streams", `${L.jazz}/streams`]]]],
     [/\bai\b|news|tech|mino|gadget|人工智能|新聞/i, () => ["🛰️ Mino AI News covers AI discoveries and robots worth knowing about.", [["Mino AI News", L.mino]]]],
-    [/learn|course|lesson|class|teach|study|school|課程|學/i, () => ["Everyday AI lessons are coming soon, for individuals and groups. No courses are open yet.", [["See the plans", "#bench-learn"]]]],
+    [/learn|course|lesson|class|teach|study|school|課程|學/i, () => ["Everyday AI lessons are coming soon, for individuals and groups. No courses are open yet.", []]],
     [/sign ?up|newsletter|email|updates|notify|waiting list|waitlist|subscribe|訂閱|登記/i, () => ["Sign-ups are coming soon. No form is switched on yet, so please don’t share your email or other details here. You can subscribe to our YouTube channels today.", [["Mino AI News", `${L.mino}?sub_confirmation=1`], ["Jamie’s Jazz Rooms", `${L.jazz}?sub_confirmation=1`]]]],
-    [/coming|soon|next|new|plan|roadmap|即將|將來/i, () => [soonList, [["See the workbench", "#workbench"]]]],
+    [/coming|soon|next|new|plan|roadmap|即將|將來/i, () => [soonList, [["See the three spaces", "#spaces"]]]],
     [/jaemi|재미|mean|name|意思/i, () => ["재미 (jaemi) means fun in Korean. That’s the whole idea: fun living, fun learning, fun every day.", []]],
-    [/who are you|what are you|are you (a )?(real|human|person|ai|bot)|你是誰|你係邊個/i, () => ["I’m Jambot, the friendly robot host of Jaemi Space. I’m not a person, and right now I’m in basic mode: I answer from a short list. My full AI brain is coming soon.", []]],
+    [/who are you|what are you|are you (a )?(real|human|person|ai|bot)|你是誰|你係邊個/i, () => ["I’m Jamcat, the robot cat who looks after Jaemi Space. I’m not a person, and right now I’m in basic mode: I answer from a short list. My full AI brain is coming soon.", []]],
     [/contact|human|person|help|support|聯絡|幫/i, () => ["A contact option is coming soon. For now, the best way to reach us is a comment on our YouTube videos.", [["Mino AI News", L.mino], ["Jamie’s Jazz Rooms", L.jazz]]]],
-    [/thank|cheers|\bta\b|謝|多謝|唔該/i, () => ["Any time. Beep boop. 💚", []]],
+    [/thank|cheers|\bta\b|謝|多謝|唔該/i, () => ["Any time. Purr-beep. 💚", []]],
     [/^(hi|hello|hey|yo|hiya|morning|你好|哈囉|hi there)\b/i, () => ["Hi! I can show you robots you can buy, jazz to relax to, AI news, cat comedy and what’s coming soon. What are you curious about?", []]]
   ];
   const basicReply = (text) => {
@@ -318,7 +318,7 @@ const JAEMI_SETTINGS = {
     if (dock) dock.hidden = true;
     if (!greeted) {
       greeted = true;
-      addMsg("bot", `${hello} I’m Jambot 🤖 I can show you robots you can buy, jazz to relax to, AI news, cat comedy${inSeason ? ", our Christmas film and giveaway 🎄" : ""} and what’s coming soon. What are you curious about?`);
+      addMsg("bot", `${hello} I’m Jamcat 🐱 I can show you robots you can buy, jazz to relax to, AI news, cat comedy${inSeason ? ", our Christmas film and giveaway 🎄" : ""} and what’s coming soon. What are you curious about?`);
     }
     if (moving() && chat.animate) chat.animate([{ transform: "translateY(24px)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 260, easing: "cubic-bezier(.3,1.3,.5,1)" });
     if (matchMedia("(pointer: fine)").matches) input.focus(); else $("#chat-close").focus();
@@ -335,7 +335,7 @@ const JAEMI_SETTINGS = {
   if (heroBot) heroBot.addEventListener("click", () => {
     heroBot.classList.remove("wave-hi"); void heroBot.offsetWidth; heroBot.classList.add("wave-hi");
     beHappy();
-    say("Hi, I’m Jambot! Ask me anything. 💬");
+    say("Hi, I’m Jamcat! Ask me anything. 💬");
     setTimeout(() => openChat(heroBot), moving() ? 450 : 0);
   });
   document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => openChat(b)));
@@ -526,6 +526,7 @@ const JAEMI_SETTINGS = {
   const hs = JAEMI_SETTINGS.hubspot;
   const slot = $("#hubspot-signup");
   if (slot && hs.formId) {
+    const section = $("[data-hubspot-section]"); if (section) section.hidden = false;
     const s = document.createElement("script");
     s.src = "https://js.hsforms.net/forms/embed/v2.js";
     s.async = true;

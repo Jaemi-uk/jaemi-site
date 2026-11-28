@@ -26,11 +26,12 @@
   <div class="top-inner">
     <a class="brand" href="/" aria-label="Jaemi Space home">
       <svg class="mini-bot" viewBox="0 0 32 32" aria-hidden="true">
-        <line x1="16" y1="3" x2="16" y2="8" stroke="#8D9CC7" stroke-width="2"/>
-        <circle class="antenna-dot" cx="16" cy="3" r="2.4"/>
-        <rect x="3" y="8" width="26" height="20" rx="9" fill="#C9D3EC"/>
-        <rect x="6" y="11" width="20" height="14" rx="6" fill="#071028"/>
-        <g class="mini-eyes"><rect class="eye" x="10" y="15" width="3.6" height="6" rx="1.8"/><rect class="eye" x="18.4" y="15" width="3.6" height="6" rx="1.8"/></g>
+        <path d="M4.5 15L5.6 3.6Q6 2.4 7.1 3.1L14.5 9.5Z" fill="#C9D3EC"/>
+        <path d="M27.5 15L26.4 3.6Q26 2.4 24.9 3.1L17.5 9.5Z" fill="#C9D3EC"/>
+        <path class="ear-in" d="M6.8 11L7.4 5.6 11.4 9.2Z"/><path class="ear-in" d="M25.2 11L24.6 5.6 20.6 9.2Z"/>
+        <rect x="3" y="8" width="26" height="21" rx="10" fill="#C9D3EC"/>
+        <rect x="6" y="11.5" width="20" height="14" rx="6.5" fill="#071028"/>
+        <g class="mini-eyes"><rect class="eye" x="10" y="15.5" width="3.6" height="6" rx="1.8"/><rect class="eye" x="18.4" y="15.5" width="3.6" height="6" rx="1.8"/></g>
       </svg>
       <span class="brand-word"><b>jaemi</b> space</span>
     </a>
@@ -63,9 +64,9 @@
       <li><a href="/robots/"><span>Robot buying guide</span><span class="pill pill-live">Live</span></a></li>
       <li><a href="#channels"><span>Channels</span><span class="pill pill-live">Live</span></a></li>
       <li><a href="/games/XmasTnC/" data-giveaway><span>Christmas giveaway</span><span class="pill pill-live" data-giveaway-pill>Open</span></a></li>
-      <li><a href="#workbench"><span>Shop and lessons</span><span class="pill pill-soon">Coming soon</span></a></li>
+      <li><a href="#discover"><span>Shop and lessons</span><span class="pill pill-soon">Coming soon</span></a></li>
     </ul>
-    <button class="btn btn-primary menu-chat" type="button" id="menu-chat"><span class="dot" aria-hidden="true"></span>Chat with Jambot</button>
+    <button class="btn btn-primary menu-chat" type="button" id="menu-chat"><span class="dot" aria-hidden="true"></span>Chat with Jamcat</button>
     <p class="menu-group">On YouTube</p>
     <div class="menu-yt">
       <a href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener">Mino AI News</a>
@@ -79,20 +80,20 @@
   <section class="hero" data-accent="mint" aria-labelledby="hero-title">
     <div class="snow" aria-hidden="true"><i style="--x:4%;--d:-2s;--w:11s;--s:3px"></i><i style="--x:12%;--d:-7s;--w:14s;--s:2px"></i><i style="--x:21%;--d:-4s;--w:10s;--s:4px"></i><i style="--x:29%;--d:-9s;--w:13s;--s:2px"></i><i style="--x:38%;--d:-1s;--w:12s;--s:3px"></i><i style="--x:46%;--d:-6s;--w:15s;--s:2px"></i><i style="--x:55%;--d:-3s;--w:11s;--s:3px"></i><i style="--x:63%;--d:-8s;--w:13s;--s:2px"></i><i style="--x:71%;--d:-5s;--w:10s;--s:4px"></i><i style="--x:79%;--d:-10s;--w:14s;--s:2px"></i><i style="--x:87%;--d:-2s;--w:12s;--s:3px"></i><i style="--x:95%;--d:-7s;--w:11s;--s:2px"></i></div>
     <div class="hero-bot">
-      <p class="bubble" id="bubble" aria-live="polite">Hi, I’m Jambot!</p>
+      <p class="bubble" id="bubble" aria-live="polite">Hi, I’m Jamcat!</p>
       <div class="bot-stage">
         <ul class="pods pods-left" aria-label="Featured now">
           <li><a class="pod pod-hot" href="#tv" style="--accent:var(--amber)"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M8 3l4 4 4-4"/><path class="fill" d="M10.5 10.6v5l4.2-2.5z"/></svg></span><span class="pod-label">Jaemi TV</span></a></li>
           <li data-show-until="2026-12-11T00:00:00Z"><a class="pod" href="#tv" style="--accent:var(--mint)" aria-describedby="giveaway-days"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M3 7h18v3H3zM12 7v13"/><path d="M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/></svg><span class="pod-badge" data-days-badge>13</span></span><span class="pod-label">Giveaway</span></a></li>
           <li data-show-from="2026-12-11T00:00:00Z" hidden><a class="pod" href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener" style="--accent:var(--lilac)"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20c0-6 3-9 8-9s8 3 8 9z"/><path d="M6 12L5 5l5 4M18 12l1-7-5 4"/></svg></span><span class="pod-label">Cats</span></a></li>
         </ul>
-        <button class="bot-button" type="button" id="bot" aria-label="Chat with Jambot" aria-describedby="bubble">
-          <svg class="bot" viewBox="0 0 420 380" aria-hidden="true">
+        <button class="bot-button" type="button" id="bot" aria-label="Chat with Jamcat" aria-describedby="bubble">
+          <svg class="bot cat-bot" viewBox="0 0 420 380" aria-hidden="true">
             <defs>
               <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#F4F7FF"/>
-                <stop offset=".5" stop-color="#B4C2DE"/>
-                <stop offset="1" stop-color="#5A6B90"/>
+                <stop offset="0" stop-color="#F6F8FF"/>
+                <stop offset=".55" stop-color="#C3CEE6"/>
+                <stop offset="1" stop-color="#7787AC"/>
               </linearGradient>
               <radialGradient id="glow" cx=".5" cy=".5" r=".5">
                 <stop offset="0" stop-color="currentColor" stop-opacity=".35"/>
@@ -104,57 +105,62 @@
             </g>
             <circle class="orbit" cx="210" cy="180" r="148" fill="none" stroke="#2A3768" stroke-dasharray="3 11"/>
             <circle class="orbit-sat" cx="210" cy="32" r="5"/>
-            <ellipse cx="210" cy="350" rx="132" ry="14" fill="#101A3E"/>
+            <ellipse cx="210" cy="350" rx="120" ry="13" fill="#101A3E"/>
             <g class="body-float">
-              <circle class="face-glow" cx="210" cy="135" r="120" fill="url(#glow)"/>
-              <!-- antenna -->
-              <path d="M210 72V48" stroke="#A6B6D6" stroke-width="7" stroke-linecap="round"/>
-              <circle class="antenna-dot" cx="210" cy="40" r="10"/>
-              <!-- resting arm -->
-              <path d="M152 240q-40 18-40 54" fill="none" stroke="#A9B8D2" stroke-width="22" stroke-linecap="round"/>
-              <circle cx="112" cy="298" r="16" fill="url(#metal)"/>
-              <!-- body -->
-              <rect x="148" y="212" width="124" height="104" rx="40" fill="url(#metal)"/>
-              <rect x="164" y="232" width="92" height="52" rx="18" fill="#071028"/>
-              <path class="pulse" d="M174 259h18l8-13 10 25 9-14h27" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <rect x="188" y="190" width="44" height="30" rx="10" fill="#7C8CAE"/>
-              <!-- waving arm -->
-              <g class="arm">
-                <path d="M268 240q46 6 54-44" fill="none" stroke="#A9B8D2" stroke-width="22" stroke-linecap="round"/>
-                <g transform="rotate(14 324 176)">
-                  <rect x="306" y="152" width="34" height="44" rx="15" fill="url(#metal)"/>
-                  <path d="M310 160l-7-16M318 155l-3-22M327 155l4-21M336 161l9-15" stroke="#CDD7EA" stroke-width="7" stroke-linecap="round"/>
-                </g>
+              <circle class="face-glow" cx="210" cy="150" r="125" fill="url(#glow)"/>
+              <g class="tail">
+                <path d="M262 320C320 326 344 290 334 250C328 226 346 210 358 220" fill="none" stroke="#B4C2DE" stroke-width="16" stroke-linecap="round"/>
+                <circle class="tail-tip" cx="358" cy="220" r="9"/>
               </g>
-              <!-- head -->
-              <rect x="104" y="114" width="16" height="44" rx="8" fill="#97A8C8"/>
-              <rect x="300" y="114" width="16" height="44" rx="8" fill="#97A8C8"/>
-              <rect x="116" y="72" width="188" height="128" rx="54" fill="url(#metal)"/>
-              <rect class="visor" x="132" y="89" width="156" height="94" rx="38" fill="#071028"/>
-              <rect class="scan" x="140" y="92" width="140" height="3" rx="1.5"/>
+              <path d="M150 336C140 268 168 222 210 222S280 268 270 336Z" fill="url(#metal)"/>
+              <rect x="192" y="262" width="48" height="34" rx="14" fill="#071028"/>
+              <path class="pulse" d="M197 280h7l5-8 7 16 6-10h12" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <ellipse cx="174" cy="337" rx="24" ry="11" fill="url(#metal)"/>
+              <ellipse cx="246" cy="337" rx="24" ry="11" fill="url(#metal)"/>
+              <path d="M172 254q-6 40 0 72" stroke="#C3CEE6" stroke-width="22" stroke-linecap="round" fill="none"/>
+              <ellipse cx="172" cy="330" rx="16" ry="11" fill="url(#metal)"/>
+              <!-- ears glow in the colour of the space you're in -->
+              <path d="M126 132L136 44Q140 34 149 41L208 94Z" fill="url(#metal)"/>
+              <path class="ear-in" d="M143 112L149 62 188 96Z"/>
+              <path d="M294 132L284 44Q280 34 271 41L212 94Z" fill="url(#metal)"/>
+              <path class="ear-in" d="M277 112L271 62 232 96Z"/>
+              <rect x="110" y="78" width="200" height="144" rx="68" fill="url(#metal)"/>
+              <rect class="visor" x="133" y="102" width="154" height="96" rx="44" fill="#071028"/>
+              <rect class="scan" x="142" y="106" width="136" height="3" rx="1.5"/>
               <g class="eyes">
-                <g class="eye-l"><ellipse class="eye eye-open" cx="176" cy="130" rx="15" ry="20"/><path class="eye-happy" d="M161 134q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
-                <g class="eye-r"><ellipse class="eye eye-open" cx="244" cy="130" rx="15" ry="20"/><path class="eye-happy" d="M229 134q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
+                <g class="eye-l"><ellipse class="eye eye-open" cx="180" cy="144" rx="15" ry="20"/><path class="eye-happy" d="M165 149q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
+                <g class="eye-r"><ellipse class="eye eye-open" cx="240" cy="144" rx="15" ry="20"/><path class="eye-happy" d="M225 149q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
+              </g>
+              <path d="M204 167h12l-6 7z" fill="#FF8FB1" stroke="#FF8FB1" stroke-width="2" stroke-linejoin="round"/>
+              <path class="mouth" d="M198 180q6 6 12 0q6 6 12 0" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <g class="whiskers" stroke-width="3" stroke-linecap="round"><path d="M128 160L88 152M128 172L90 179M292 160L332 152M292 172L330 179"/></g>
+              <ellipse cx="150" cy="209" rx="10" ry="5" fill="#B9A4FF" opacity=".4"/>
+              <ellipse cx="270" cy="209" rx="10" ry="5" fill="#B9A4FF" opacity=".4"/>
+              <path class="collar" d="M166 228Q210 246 254 228" fill="none" stroke-width="7" stroke-linecap="round"/>
+              <circle class="bell" cx="210" cy="242" r="8"/>
+              <!-- raised paw, like a lucky cat -->
+              <g class="arm">
+                <path d="M248 254Q300 250 318 200" fill="none" stroke="#C3CEE6" stroke-width="22" stroke-linecap="round"/>
+                <ellipse cx="322" cy="182" rx="22" ry="21" fill="url(#metal)"/>
+                <ellipse class="pad" cx="322" cy="188" rx="8" ry="6"/>
+                <circle class="pad" cx="311" cy="174" r="3.6"/><circle class="pad" cx="322" cy="170" r="3.6"/><circle class="pad" cx="333" cy="174" r="3.6"/>
               </g>
               <g class="xmas-hat">
-                <path d="M226 78Q246 22 306 40Q298 58 304 86Z" fill="#E5484D"/>
-                <path d="M240 50q26-14 58-8" fill="none" stroke="#ffffff33" stroke-width="5" stroke-linecap="round"/>
-                <rect x="216" y="70" width="98" height="20" rx="10" fill="#F4F7FF" transform="rotate(10 265 80)"/>
-                <circle cx="309" cy="40" r="11" fill="#F4F7FF"/>
+                <path d="M226 100Q254 20 320 30Q302 54 306 104Z" fill="#E5484D"/>
+                <path d="M246 62q24-22 58-26" fill="none" stroke="#ffffff33" stroke-width="5" stroke-linecap="round"/>
+                <rect x="214" y="92" width="104" height="20" rx="10" fill="#F4F7FF" transform="rotate(12 266 102)"/>
+                <circle cx="323" cy="30" r="11" fill="#F4F7FF"/>
               </g>
-              <ellipse cx="152" cy="160" rx="10" ry="5" fill="#B9A4FF" opacity=".35"/>
-              <ellipse cx="268" cy="160" rx="10" ry="5" fill="#B9A4FF" opacity=".35"/>
-              <path class="mouth" d="M193 160q17 13 34 0" fill="none" stroke-width="4" stroke-linecap="round"/>
             </g>
             <g class="sparks" stroke-width="2" stroke-linecap="round">
               <path d="M74 112v18M65 121h18"/>
-              <path d="M356 268v14M349 275h14"/>
+              <path d="M70 262v14M63 269h14"/>
             </g>
           </svg>
         </button>
         <ul class="pods pods-right" aria-label="Quick links">
           <li><a class="pod" href="/robots/" style="--accent:var(--mint)"><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="5"/><path d="M12 3v4"/><circle class="fill" cx="9.5" cy="13" r="1.5"/><circle class="fill" cx="14.5" cy="13" r="1.5"/></svg></span><span class="pod-label">Robots</span></a></li>
-          <li class="js-only" hidden><button class="pod" type="button" style="--accent:var(--lilac)" data-open-chat><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span><span class="pod-label">Jambot</span></button></li>
+          <li class="js-only" hidden><button class="pod" type="button" style="--accent:var(--lilac)" data-open-chat><span class="pod-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span><span class="pod-label">Jamcat</span></button></li>
         </ul>
       </div>
     </div>
@@ -284,9 +290,9 @@
         </div>
         <p class="space-text">Make AI part of everyday life, with practical lessons, playful experiments and new skills.</p>
         <ul class="rows">
-          <li><a class="row row-plan" href="#bench-learn"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l9 5-9 5-9-5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></span><span class="row-text"><b>Everyday AI lessons</b><small>Courses for beginners and groups</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><div class="row row-plan"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l9 5-9 5-9-5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></span><span class="row-text"><b>Everyday AI lessons</b><small>Courses for beginners and groups</small></span><span class="pill pill-soon">Coming soon</span></div></li>
           <li><div class="row row-plan"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 12V8a5 5 0 0 1 10 0v2h1a2 2 0 0 1 0 4l-2 5H8z"/><path d="M8 19h8M11 9h4"/></svg></span><span class="row-text"><b>Mino Boxing</b><small>A free robot boxing game for your phone</small></span><span class="pill pill-soon">Coming soon</span></div></li>
-          <li><a class="row row-plan" href="#bench-join"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><span class="row-text"><b>Course waiting list</b><small>Join to hear when lessons open</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><div class="row row-plan"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><span class="row-text"><b>Course waiting list</b><small>Join to hear when lessons open</small></span><span class="pill pill-soon">Coming soon</span></div></li>
         </ul>
       </article>
 
@@ -298,8 +304,8 @@
         <p class="space-text">Good, fun, exciting finds: robots, mobile phone parts and imported discoveries.</p>
         <ul class="rows">
           <li><a class="row" href="/robots/"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="5"/><path d="M12 3v4"/><circle class="fill" cx="9.5" cy="13" r="1.5"/><circle class="fill" cx="14.5" cy="13" r="1.5"/></svg></span><span class="row-text"><b>Robot buying guide</b><small>Real prices and where each robot ships</small></span><span class="pill pill-live">Live</span></a></li>
-          <li><a class="row row-plan" href="#bench-shop"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><span class="row-text"><b>Jaemi Shop</b><small>Robots, phone parts and imported finds</small></span><span class="pill pill-soon">Coming soon</span></a></li>
-          <li><a class="row row-plan" href="#bench-join"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><span class="row-text"><b>Tell me when it lands</b><small>Alerts for new robots and finds</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><div class="row row-plan"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><span class="row-text"><b>Jaemi Shop</b><small>Robots, phone parts and imported finds</small></span><span class="pill pill-soon">Coming soon</span></div></li>
+          <li><div class="row row-plan"><span class="row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span><span class="row-text"><b>Tell me when it lands</b><small>Alerts for new robots and finds</small></span><span class="pill pill-soon">Coming soon</span></div></li>
         </ul>
       </article>
     </div>
@@ -341,57 +347,12 @@
     </div>
   </section>
 
-  <section class="section bench" id="workbench" data-accent="lilac" aria-labelledby="bench-title">
+  <section class="section join" id="join" data-accent="mint" aria-labelledby="join-title" hidden data-hubspot-section>
     <div class="section-head">
-      <h2 id="bench-title">On the workbench</h2>
-      <p>These parts of Jaemi Space are drawn up and coming soon. Nothing here takes payments, sign-ups or personal details yet.</p>
+      <h2 id="join-title">Join Jaemi Space</h2>
+      <p>Choose what you’d like to hear about: robots, AI learning, jazz or new finds. Only what you pick, nothing else.</p>
     </div>
-
-    <div class="bench-grid">
-      <div class="diag" role="group" aria-labelledby="diag-title">
-        <p class="diag-title" id="diag-title">System check</p>
-        <ul class="diag-list">
-          <li data-state="on"><span class="led"></span><span>YouTube channels</span><b>3 linked</b></li>
-          <li data-state="on"><span class="led"></span><span>Robot buying guide</span><b>Live</b></li>
-          <li data-state="on" data-giveaway-diag><span class="led"></span><span>Christmas giveaway</span><b>Open</b></li>
-          <li data-state="on" data-chat-diag><span class="led"></span><span>Jambot chat</span><b>Basic</b></li>
-          <li data-state="soon"><span class="led"></span><span>Jaemi Shop</span><b>Soon</b></li>
-          <li data-state="soon"><span class="led"></span><span>Learning space</span><b>Soon</b></li>
-          <li data-state="soon" data-signup-diag><span class="led"></span><span>Sign-ups</span><b>Soon</b></li>
-          <li data-state="soon"><span class="led"></span><span>Instagram and TikTok</span><b>Soon</b></li>
-          <li data-state="soon"><span class="led"></span><span>Jambot’s full AI brain</span><b>Soon</b></li>
-        </ul>
-      </div>
-
-      <article class="blueprint" id="bench-shop" style="--accent:var(--amber)">
-        <div class="bp-art" aria-hidden="true">
-          <svg viewBox="0 0 240 110"><rect x="8" y="14" width="64" height="80" rx="10"/><rect x="88" y="14" width="64" height="80" rx="10"/><rect x="168" y="14" width="64" height="80" rx="10"/><path d="M22 74h36M102 74h36M182 74h36M22 84h20M102 84h20M182 84h20"/><circle cx="40" cy="42" r="14"/><path d="M106 52l14-18 14 18z"/><rect x="186" y="30" width="28" height="28" rx="6"/></svg>
-        </div>
-        <h3>Jaemi Shop</h3>
-        <p>Robots, mobile phone parts and imported finds, with honest descriptions and UK delivery details.</p>
-        <p class="bp-status"><span class="pill pill-soon">Coming soon</span><span>Checkout isn’t open yet</span></p>
-      </article>
-
-      <article class="blueprint" id="bench-learn" style="--accent:var(--lilac)">
-        <div class="bp-art" aria-hidden="true">
-          <svg viewBox="0 0 240 110"><rect x="8" y="10" width="140" height="90" rx="10"/><path d="M68 40v30l24-15z"/><path d="M168 22h64M168 42h64M168 62h44M168 82h56"/><circle cx="160" cy="22" r="3"/><circle cx="160" cy="42" r="3"/><circle cx="160" cy="62" r="3"/><circle cx="160" cy="82" r="3"/></svg>
-        </div>
-        <h3>Learning space</h3>
-        <p>Short, friendly lessons that make AI useful at home and at work, for individuals and groups.</p>
-        <p class="bp-status"><span class="pill pill-soon">Coming soon</span><span>No courses open yet</span></p>
-      </article>
-
-      <article class="blueprint" id="bench-join" style="--accent:var(--mint)">
-        <div class="bp-art" aria-hidden="true">
-          <svg viewBox="0 0 240 110"><rect x="8" y="10" width="224" height="26" rx="8"/><rect x="8" y="48" width="64" height="18" rx="9"/><rect x="80" y="48" width="70" height="18" rx="9"/><rect x="158" y="48" width="74" height="18" rx="9"/><rect x="8" y="80" width="96" height="24" rx="12"/></svg>
-        </div>
-        <h3>Join Jaemi Space</h3>
-        <p>Choose what you’d like to hear about: robots, AI learning, jazz or new finds. Only what you pick, nothing else.</p>
-        <div class="signup-slot" id="hubspot-signup" data-hubspot-slot="join">
-          <p class="bp-status"><span class="pill pill-soon">Coming soon</span><span>No sign-up form is switched on yet</span></p>
-        </div>
-      </article>
-    </div>
+    <div class="join-card"><div id="hubspot-signup"></div></div>
   </section>
 
   <section class="section closing" data-accent="mint" aria-labelledby="closing-title">
@@ -403,15 +364,17 @@
 
 <p class="toast" id="toast" role="status" hidden></p>
 <button class="to-top" id="to-top" type="button" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-<button class="dock" id="dock" type="button" hidden aria-label="Chat with Jambot">
+<button class="dock" id="dock" type="button" hidden aria-label="Chat with Jamcat">
   <svg viewBox="0 0 64 80" aria-hidden="true">
-    <path class="flame" d="M24 62q8 22 16 0q-8 6-16 0z"/>
-    <line x1="32" y1="4" x2="32" y2="12" stroke="#A6B6D6" stroke-width="3" stroke-linecap="round"/>
-    <circle class="antenna-dot" cx="32" cy="4" r="4"/>
-    <rect x="8" y="12" width="48" height="34" rx="15" fill="url(#metal)"/>
-    <rect x="13" y="17" width="38" height="24" rx="11" fill="#071028"/>
-    <g class="dock-eyes"><g class="eye-l"><ellipse class="eye eye-open" cx="25" cy="29" rx="4" ry="5.5"/><path class="eye-happy" d="M21 30q4-5 8 0" fill="none" stroke-width="2.5" stroke-linecap="round"/></g><g class="eye-r"><ellipse class="eye eye-open" cx="39" cy="29" rx="4" ry="5.5"/><path class="eye-happy" d="M35 30q4-5 8 0" fill="none" stroke-width="2.5" stroke-linecap="round"/></g></g>
-    <rect x="20" y="46" width="24" height="16" rx="8" fill="url(#metal)"/>
+    <path class="flame" d="M24 64q8 22 16 0q-8 6-16 0z"/>
+    <path d="M9 30L11 6Q12 3.5 14.5 5L29 17Z" fill="url(#metal)"/>
+    <path d="M55 30L53 6Q52 3.5 49.5 5L35 17Z" fill="url(#metal)"/>
+    <path class="ear-in" d="M13 24L14 10 23 18Z"/><path class="ear-in" d="M51 24L50 10 41 18Z"/>
+    <rect x="6" y="14" width="52" height="38" rx="18" fill="url(#metal)"/>
+    <rect x="12" y="20" width="40" height="26" rx="12" fill="#071028"/>
+    <g class="dock-eyes"><g class="eye-l"><ellipse class="eye eye-open" cx="25" cy="32" rx="4" ry="5.5"/><path class="eye-happy" d="M21 33q4-5 8 0" fill="none" stroke-width="2.5" stroke-linecap="round"/></g><g class="eye-r"><ellipse class="eye eye-open" cx="39" cy="32" rx="4" ry="5.5"/><path class="eye-happy" d="M35 33q4-5 8 0" fill="none" stroke-width="2.5" stroke-linecap="round"/></g></g>
+    <g class="whiskers" stroke-width="1.6" stroke-linecap="round"><path d="M10 36L1 34M10 40L2 42M54 36L63 34M54 40L62 42"/></g>
+    <rect x="21" y="52" width="22" height="13" rx="6.5" fill="url(#metal)"/>
   </svg>
 </button>
 
@@ -419,7 +382,7 @@
   <div class="chat-head">
     <img src="/assets/favicon.svg" width="36" height="36" alt="">
     <div class="chat-who">
-      <p class="chat-title" id="chat-title">Jambot <span aria-hidden="true">🤖</span></p>
+      <p class="chat-title" id="chat-title">Jamcat <span aria-hidden="true">🐱</span></p>
       <p class="chat-mode" id="chat-mode">Basic mode: I answer from a short list. Full AI chat is coming soon.</p>
     </div>
     <button class="chat-close" type="button" id="chat-close" aria-label="Close chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -454,7 +417,7 @@
       <a href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener">Clocked Out Cats</a>
     </nav>
     <div class="foot-end">
-      <span>© 2026 Jaemi Space, jaemi.uk. All rights reserved. Jambot is an original character, not a product for sale. This page uses no tracking cookies; YouTube may set some if you play a video.</span>
+      <span>© 2026 Jaemi Space, jaemi.uk. All rights reserved. Jamcat is an original character, not a product for sale. This page uses no tracking cookies; YouTube may set some if you play a video.</span>
       <button class="motion-toggle" type="button" id="motion-toggle" aria-pressed="false">Pause motion</button>
     </div>
   </div>
