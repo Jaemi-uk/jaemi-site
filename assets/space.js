@@ -170,7 +170,7 @@ const JAEMI_SETTINGS = {
     const [x, y] = glances[g++ % glances.length]; aim(x, y);
   }, 3200);
   // Blink every few seconds.
-  const eyes = document.querySelectorAll(".eye");
+  const eyes = document.querySelectorAll(".eye, .eye-shine, .mini-shine");
   eyes.forEach((el) => { el.style.transformBox = "fill-box"; el.style.transformOrigin = "center"; });
   const blink = () => {
     if (moving() && !document.hidden && eyes[0].animate) {

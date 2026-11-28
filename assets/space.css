@@ -1211,3 +1211,8 @@ html.menu-open { overflow: hidden; }
 .pad { fill: #FF8FB1; }
 @keyframes beckon { 0%, 70%, 100% { transform: rotate(0); } 78% { transform: rotate(-14deg); } 86% { transform: rotate(4deg); } 93% { transform: rotate(-10deg); } }
 @keyframes swish { 50% { transform: rotate(-7deg); } }
+
+/* Bigger, cuter eyes with a sparkle */
+.eye-shine circle, .mini-shine { fill: #fff; }
+.eye-shine circle:last-child { opacity: .75; }
+.happy .eye-shine { opacity: 0; }
