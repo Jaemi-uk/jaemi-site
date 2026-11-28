@@ -46,7 +46,7 @@
   <section class="hero" data-accent="mint" aria-labelledby="hero-title">
     <div class="hero-bot">
       <p class="bubble" id="bubble" aria-live="polite">Hello! Welcome to Jaemi Space.</p>
-      <button class="bot-button" type="button" id="bot" aria-label="Say hi to the Jaemi Space robot" aria-describedby="bubble">
+      <button class="bot-button" type="button" id="bot" aria-label="Chat with the Jaemi Space robot" aria-describedby="bubble">
         <svg class="bot" viewBox="0 0 420 380" aria-hidden="true">
           <defs>
             <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
@@ -106,7 +106,7 @@
           </g>
         </svg>
       </button>
-      <p class="bot-hint">Tap the robot</p>
+      <button class="bot-chat" type="button" id="bot-chat" hidden><span class="dot" aria-hidden="true"></span>Chat with the robot</button>
     </div>
 
     <div class="hero-copy">
@@ -143,7 +143,7 @@
   <section class="section" id="spaces" aria-labelledby="spaces-title">
     <div class="section-head">
       <h2 id="spaces-title">Three spaces. One curious you.</h2>
-      <p>Lit-up items work today. Items drawn as blueprints are still being built.</p>
+      <p>Lit-up items work today. Anything drawn as a blueprint is coming soon.</p>
     </div>
 
     <div class="spaces">
@@ -168,9 +168,9 @@
         </div>
         <p class="space-text">Make AI part of everyday life, with practical lessons, playful experiments and new skills.</p>
         <ul class="rows">
-          <li><a class="row row-plan" href="#bench-learn"><span class="row-text"><b>Everyday AI lessons</b><small>Courses for beginners and groups</small></span><span class="pill pill-plan">Planned</span></a></li>
-          <li><div class="row row-plan"><span class="row-text"><b>Mino Boxing</b><small>A free robot boxing game for your phone</small></span><span class="pill pill-build">Coming soon</span></div></li>
-          <li><a class="row row-plan" href="#bench-join"><span class="row-text"><b>Course waiting list</b><small>Sign-up isn’t connected yet</small></span><span class="pill pill-off">Not connected</span></a></li>
+          <li><a class="row row-plan" href="#bench-learn"><span class="row-text"><b>Everyday AI lessons</b><small>Courses for beginners and groups</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><div class="row row-plan"><span class="row-text"><b>Mino Boxing</b><small>A free robot boxing game for your phone</small></span><span class="pill pill-soon">Coming soon</span></div></li>
+          <li><a class="row row-plan" href="#bench-join"><span class="row-text"><b>Course waiting list</b><small>Join to hear when lessons open</small></span><span class="pill pill-soon">Coming soon</span></a></li>
         </ul>
       </article>
 
@@ -182,8 +182,8 @@
         <p class="space-text">Good, fun, exciting finds: robots, mobile phone parts and imported discoveries.</p>
         <ul class="rows">
           <li><a class="row" href="/robots/"><span class="row-text"><b>Robot buying guide</b><small>Real prices and where each robot ships</small></span><span class="pill pill-live">Live</span></a></li>
-          <li><a class="row row-plan" href="#bench-shop"><span class="row-text"><b>Jaemi Shop</b><small>Nothing is for sale yet</small></span><span class="pill pill-build">In development</span></a></li>
-          <li><a class="row row-plan" href="#bench-join"><span class="row-text"><b>Tell me when it lands</b><small>Restock and new-find alerts</small></span><span class="pill pill-off">Not connected</span></a></li>
+          <li><a class="row row-plan" href="#bench-shop"><span class="row-text"><b>Jaemi Shop</b><small>Robots, phone parts and imported finds</small></span><span class="pill pill-soon">Coming soon</span></a></li>
+          <li><a class="row row-plan" href="#bench-join"><span class="row-text"><b>Tell me when it lands</b><small>Alerts for new robots and finds</small></span><span class="pill pill-soon">Coming soon</span></a></li>
         </ul>
       </article>
     </div>
@@ -214,10 +214,10 @@
         </div>
       </article>
       <article class="channel channel-plan" style="--accent:var(--lilac)">
-        <div class="wave wave-flat" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <h3>Channel three</h3>
-        <p>A frequency we’re saving for something new. Name and link still to add.</p>
-        <div class="channel-actions"><span class="pill pill-plan">Coming soon</span></div>
+        <svg class="cat" viewBox="0 0 64 40" aria-hidden="true"><path d="M12 36C12 23 20 17 32 17s20 6 20 19z"/><path d="M16 23l-2-14 11 8M48 23l2-14-11 8"/><path d="M20 28q4 3 8 0M36 28q4 3 8 0M31 32h2"/><path d="M54 4h6l-6 6h6"/></svg>
+        <h3>Clocked Out Cat</h3>
+        <p>Our cat channel, starring Mino Cat. For when you’ve clocked out for the day.</p>
+        <div class="channel-actions"><span class="pill pill-soon">Coming soon</span><span class="soon-note">Link coming soon</span></div>
       </article>
     </div>
   </section>
@@ -225,7 +225,7 @@
   <section class="section bench" id="workbench" data-accent="lilac" aria-labelledby="bench-title">
     <div class="section-head">
       <h2 id="bench-title">On the workbench</h2>
-      <p>These parts of Jaemi Space are drawn up but not switched on. Nothing here takes payments, sign-ups or personal details yet.</p>
+      <p>These parts of Jaemi Space are drawn up and coming soon. Nothing here takes payments, sign-ups or personal details yet.</p>
     </div>
 
     <div class="bench-grid">
@@ -235,11 +235,13 @@
           <li data-state="on"><span class="led"></span><span>YouTube channels</span><b>2 linked</b></li>
           <li data-state="on"><span class="led"></span><span>Robot buying guide</span><b>Live</b></li>
           <li data-state="on" data-giveaway-diag><span class="led"></span><span>Christmas giveaway</span><b>Open</b></li>
-          <li data-state="build"><span class="led"></span><span>Channel three</span><b>To add</b></li>
-          <li data-state="build"><span class="led"></span><span>Jaemi Shop</span><b>Building</b></li>
-          <li data-state="build"><span class="led"></span><span>Learning space</span><b>Planned</b></li>
-          <li data-state="off"><span class="led"></span><span>Sign-ups (HubSpot)</span><b>Off</b></li>
-          <li data-state="off"><span class="led"></span><span>Instagram and TikTok</span><b>Off</b></li>
+          <li data-state="on" data-chat-diag><span class="led"></span><span>Robot chat</span><b>Basic</b></li>
+          <li data-state="soon"><span class="led"></span><span>Clocked Out Cat</span><b>Soon</b></li>
+          <li data-state="soon"><span class="led"></span><span>Jaemi Shop</span><b>Soon</b></li>
+          <li data-state="soon"><span class="led"></span><span>Learning space</span><b>Soon</b></li>
+          <li data-state="soon" data-signup-diag><span class="led"></span><span>Sign-ups</span><b>Soon</b></li>
+          <li data-state="soon"><span class="led"></span><span>Instagram and TikTok</span><b>Soon</b></li>
+          <li data-state="soon"><span class="led"></span><span>Full AI robot brain</span><b>Soon</b></li>
         </ul>
       </div>
 
@@ -249,7 +251,7 @@
         </div>
         <h3>Jaemi Shop</h3>
         <p>Robots, mobile phone parts and imported finds, with honest descriptions and UK delivery details.</p>
-        <p class="bp-status"><span class="pill pill-build">In development</span><span>Checkout not connected</span></p>
+        <p class="bp-status"><span class="pill pill-soon">Coming soon</span><span>Checkout isn’t open yet</span></p>
       </article>
 
       <article class="blueprint" id="bench-learn" style="--accent:var(--lilac)">
@@ -258,7 +260,7 @@
         </div>
         <h3>Learning space</h3>
         <p>Short, friendly lessons that make AI useful at home and at work, for individuals and groups.</p>
-        <p class="bp-status"><span class="pill pill-plan">Planned</span><span>No courses open yet</span></p>
+        <p class="bp-status"><span class="pill pill-soon">Coming soon</span><span>No courses open yet</span></p>
       </article>
 
       <article class="blueprint" id="bench-join" style="--accent:var(--mint)">
@@ -268,7 +270,7 @@
         <h3>Join Jaemi Space</h3>
         <p>Choose what you’d like to hear about: robots, AI learning, jazz or new finds. Only what you pick, nothing else.</p>
         <div class="signup-slot" id="hubspot-signup" data-hubspot-slot="join">
-          <p class="bp-status"><span class="pill pill-off">Not connected</span><span>Sign-up opens when HubSpot is linked</span></p>
+          <p class="bp-status"><span class="pill pill-soon">Coming soon</span><span>No sign-up form is switched on yet</span></p>
         </div>
       </article>
     </div>
@@ -279,6 +281,43 @@
     <p>Jaemi brings your curiosity about AI and robots together with the things that make life enjoyable. Watch, learn and discover. There’s more than one way into the future.</p>
   </section>
 </main>
+
+<button class="dock" id="dock" type="button" hidden aria-label="Chat with the Jaemi Space robot">
+  <svg viewBox="0 0 64 80" aria-hidden="true">
+    <path class="flame" d="M24 62q8 22 16 0q-8 6-16 0z"/>
+    <line x1="32" y1="4" x2="32" y2="12" stroke="#A6B6D6" stroke-width="3" stroke-linecap="round"/>
+    <circle class="antenna-dot" cx="32" cy="4" r="4"/>
+    <rect x="8" y="12" width="48" height="34" rx="15" fill="url(#metal)"/>
+    <rect x="13" y="17" width="38" height="24" rx="11" fill="#071028"/>
+    <g class="dock-eyes"><g class="eye-l"><ellipse class="eye eye-open" cx="25" cy="29" rx="4" ry="5.5"/><path class="eye-happy" d="M21 30q4-5 8 0" fill="none" stroke-width="2.5" stroke-linecap="round"/></g><g class="eye-r"><ellipse class="eye eye-open" cx="39" cy="29" rx="4" ry="5.5"/><path class="eye-happy" d="M35 30q4-5 8 0" fill="none" stroke-width="2.5" stroke-linecap="round"/></g></g>
+    <rect x="20" y="46" width="24" height="16" rx="8" fill="url(#metal)"/>
+  </svg>
+</button>
+
+<aside class="chat" id="chat" role="dialog" aria-modal="false" aria-labelledby="chat-title" hidden>
+  <div class="chat-head">
+    <img src="/assets/favicon.svg" width="36" height="36" alt="">
+    <div class="chat-who">
+      <p class="chat-title" id="chat-title">Jaemi robot</p>
+      <p class="chat-mode" id="chat-mode">Basic mode: I answer from a short list. Full AI chat is coming soon.</p>
+    </div>
+    <button class="chat-close" type="button" id="chat-close" aria-label="Close chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="chat-log" id="chat-log" aria-live="polite"></div>
+  <div class="chips" id="chat-chips">
+    <button type="button" data-ask="Help me find a robot">Find a robot</button>
+    <button type="button" data-ask="Play some jazz">Play some jazz</button>
+    <button type="button" data-ask="Show me AI news">AI news</button>
+    <button type="button" data-ask="What's coming soon?">What’s coming soon?</button>
+    <button type="button" data-ask="What does jaemi mean?">What does jaemi mean?</button>
+  </div>
+  <form class="chat-form" id="chat-form">
+    <label class="sr" for="chat-input">Your message</label>
+    <input id="chat-input" type="text" autocomplete="off" maxlength="300" placeholder="Ask me something" enterkeyhint="send">
+    <button type="submit">Send</button>
+  </form>
+  <p class="chat-privacy" id="chat-privacy">Basic mode runs on your device. Nothing you type is sent anywhere.</p>
+</aside>
 
 <footer class="foot">
   <div class="foot-inner">
@@ -293,7 +332,7 @@
       <a href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener">Jamie’s Jazz Rooms</a>
     </nav>
     <div class="foot-end">
-      <span>© 2026 Jaemi Space, jaemi.uk. The robot is an original illustration, not a product for sale.</span>
+      <span>© 2026 Jaemi Space, jaemi.uk. All rights reserved. The robot is an original illustration, not a product for sale. This page uses no tracking cookies.</span>
       <button class="motion-toggle" type="button" id="motion-toggle" aria-pressed="false">Pause motion</button>
     </div>
   </div>
