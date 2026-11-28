@@ -1,43 +1,302 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jaemi.uk</title>
-<meta name="description" content="Jaemi.uk: home of Jamie's Jazz Rooms and Mino AI.">
-<link rel="stylesheet" href="/assets/site.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jaemi Space: robots, AI and fun every day</title>
+<meta name="description" content="Jaemi Space is a space for the real fun in life: AI and robot guides from Mino AI News, music from Jamie's Jazz Rooms, and a robot buying guide. Learning and a shop are on the way.">
+<link rel="canonical" href="https://jaemi.uk/">
+<meta name="theme-color" content="#0A1230">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jaemi.uk/">
+<meta property="og:title" content="Jaemi Space: the future looks more fun from here">
+<meta property="og:description" content="Robots to discover. AI to explore. New things to learn. 재미 means fun in Korean.">
+<meta property="og:image" content="https://jaemi.uk/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/space.css">
+<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('jaemi-still')==='1')document.documentElement.classList.add('still')}catch(e){}</script>
+<script src="/assets/space.js" defer></script>
 </head>
 <body>
-<div class="wrap">
-  <header class="site">
-    <a class="brand" href="/">Jaemi.uk</a>
-    <nav><a href="/robots/">Robot guide</a><a href="/games/XmasTnC/">Giveaway rules</a></nav>
-  </header>
+<a class="skip" href="#spaces">Skip to the three spaces</a>
 
-  <p class="kicker">Music · AI · Games</p>
-  <h1>Warm music and smart ideas, made with care.</h1>
-  <p class="lede">Jaemi.uk is the home of Jamie's Jazz Rooms and Mino AI.</p>
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="/" aria-label="Jaemi Space home">
+      <svg class="mini-bot" viewBox="0 0 32 32" aria-hidden="true">
+        <line x1="16" y1="3" x2="16" y2="8" stroke="#8D9CC7" stroke-width="2"/>
+        <circle class="antenna-dot" cx="16" cy="3" r="2.4"/>
+        <rect x="3" y="8" width="26" height="20" rx="9" fill="#C9D3EC"/>
+        <rect x="6" y="11" width="20" height="14" rx="6" fill="#071028"/>
+        <g class="mini-eyes"><rect class="eye" x="10" y="15" width="3.6" height="6" rx="1.8"/><rect class="eye" x="18.4" y="15" width="3.6" height="6" rx="1.8"/></g>
+      </svg>
+      <span class="brand-word"><b>jaemi</b> space</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#watch">Watch</a>
+      <a href="#learn">Learn</a>
+      <a href="#discover">Discover</a>
+    </nav>
+  </div>
+</header>
 
-  <div class="cards">
-    <a class="card" href="https://www.youtube.com/@JamiesJazzRooms" style="text-decoration:none;color:inherit">
-      <h3>Jamie's Jazz Rooms</h3>
-      <p>Cozy vocal jazz for winter nights, coffee and Christmas. On YouTube.</p>
-    </a>
-    <a class="card" href="/games/XmasTnC/" style="text-decoration:none;color:inherit">
-      <h3>🎁 Christmas giveaway</h3>
-      <p>Tell us your favourite song in our Christmas film. Closes 10 December 2026.</p>
-    </a>
-    <a class="card" href="/robots/" style="text-decoration:none;color:inherit">
-      <h3>🤖 Robot buying guide</h3>
-      <p>Robots you can actually buy: real prices, where each one ships, and which famous robots are not for sale yet. From Mino AI.</p>
-    </a>
-    <div class="card">
-      <h3>Mino AI</h3>
-      <p>A daily AI reality check, and Mino Boxing, our free game. Coming soon.</p>
+<main>
+  <section class="hero" data-accent="mint" aria-labelledby="hero-title">
+    <div class="hero-bot">
+      <p class="bubble" id="bubble" aria-live="polite">Hello! Welcome to Jaemi Space.</p>
+      <button class="bot-button" type="button" id="bot" aria-label="Say hi to the Jaemi Space robot" aria-describedby="bubble">
+        <svg class="bot" viewBox="0 0 420 380" aria-hidden="true">
+          <defs>
+            <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F4F7FF"/>
+              <stop offset=".5" stop-color="#B4C2DE"/>
+              <stop offset="1" stop-color="#5A6B90"/>
+            </linearGradient>
+            <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="currentColor" stop-opacity=".35"/>
+              <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <g class="hud" fill="none" stroke-width="2">
+            <path d="M44 70V44h26M376 70V44h-26M44 300v26h26M376 300v26h-26"/>
+          </g>
+          <circle class="orbit" cx="210" cy="180" r="148" fill="none" stroke="#2A3768" stroke-dasharray="3 11"/>
+          <circle class="orbit-sat" cx="210" cy="32" r="5"/>
+          <ellipse cx="210" cy="350" rx="132" ry="14" fill="#101A3E"/>
+          <g class="body-float">
+            <circle class="face-glow" cx="210" cy="135" r="120" fill="url(#glow)"/>
+            <!-- antenna -->
+            <path d="M210 72V48" stroke="#A6B6D6" stroke-width="7" stroke-linecap="round"/>
+            <circle class="antenna-dot" cx="210" cy="40" r="10"/>
+            <!-- resting arm -->
+            <path d="M152 240q-40 18-40 54" fill="none" stroke="#A9B8D2" stroke-width="22" stroke-linecap="round"/>
+            <circle cx="112" cy="298" r="16" fill="url(#metal)"/>
+            <!-- body -->
+            <rect x="148" y="212" width="124" height="104" rx="40" fill="url(#metal)"/>
+            <rect x="164" y="232" width="92" height="52" rx="18" fill="#071028"/>
+            <path class="pulse" d="M174 259h18l8-13 10 25 9-14h27" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="188" y="190" width="44" height="30" rx="10" fill="#7C8CAE"/>
+            <!-- waving arm -->
+            <g class="arm">
+              <path d="M268 240q46 6 54-44" fill="none" stroke="#A9B8D2" stroke-width="22" stroke-linecap="round"/>
+              <g transform="rotate(14 324 176)">
+                <rect x="306" y="152" width="34" height="44" rx="15" fill="url(#metal)"/>
+                <path d="M310 160l-7-16M318 155l-3-22M327 155l4-21M336 161l9-15" stroke="#CDD7EA" stroke-width="7" stroke-linecap="round"/>
+              </g>
+            </g>
+            <!-- head -->
+            <rect x="104" y="114" width="16" height="44" rx="8" fill="#97A8C8"/>
+            <rect x="300" y="114" width="16" height="44" rx="8" fill="#97A8C8"/>
+            <rect x="116" y="72" width="188" height="128" rx="54" fill="url(#metal)"/>
+            <rect class="visor" x="132" y="89" width="156" height="94" rx="38" fill="#071028"/>
+            <rect class="scan" x="140" y="92" width="140" height="3" rx="1.5"/>
+            <g class="eyes">
+              <g class="eye-l"><ellipse class="eye eye-open" cx="176" cy="130" rx="15" ry="20"/><path class="eye-happy" d="M161 134q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
+              <g class="eye-r"><ellipse class="eye eye-open" cx="244" cy="130" rx="15" ry="20"/><path class="eye-happy" d="M229 134q15-18 30 0" fill="none" stroke-width="6" stroke-linecap="round"/></g>
+            </g>
+            <ellipse cx="152" cy="160" rx="10" ry="5" fill="#B9A4FF" opacity=".35"/>
+            <ellipse cx="268" cy="160" rx="10" ry="5" fill="#B9A4FF" opacity=".35"/>
+            <path class="mouth" d="M193 160q17 13 34 0" fill="none" stroke-width="4" stroke-linecap="round"/>
+          </g>
+          <g class="sparks" stroke-width="2" stroke-linecap="round">
+            <path d="M74 112v18M65 121h18"/>
+            <path d="M356 268v14M349 275h14"/>
+          </g>
+        </svg>
+      </button>
+      <p class="bot-hint">Tap the robot</p>
+    </div>
+
+    <div class="hero-copy">
+      <p class="hello">Human curiosity. Robot possibilities.</p>
+      <h1 id="hero-title">The future looks more fun from&nbsp;here.</h1>
+      <p class="lede">Robots to discover, AI to explore and new things to learn. Welcome to Jaemi Space, a space for the real fun in life.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#spaces">Explore the three spaces</a>
+        <a class="btn btn-ghost" href="/robots/">Open the robot buying guide</a>
+      </div>
+      <p class="meaning"><span lang="ko">재미</span> (jaemi) means <em>fun</em> in Korean. That’s the whole plan.</p>
+    </div>
+  </section>
+
+  <div class="ticker" aria-label="What Jaemi Space is about">
+    <div class="ticker-track">
+      <ul class="ticker-set">
+        <li>Robotics &amp; real-life tech</li>
+        <li>AI made approachable</li>
+        <li>Fun every day</li>
+        <li>Robots you can actually buy</li>
+        <li>Music for slowing down</li>
+      </ul>
+      <ul class="ticker-set" aria-hidden="true">
+        <li>Robotics &amp; real-life tech</li>
+        <li>AI made approachable</li>
+        <li>Fun every day</li>
+        <li>Robots you can actually buy</li>
+        <li>Music for slowing down</li>
+      </ul>
     </div>
   </div>
 
-  <footer class="site">© 2026 Jaemi.uk</footer>
-</div>
+  <section class="section" id="spaces" aria-labelledby="spaces-title">
+    <div class="section-head">
+      <h2 id="spaces-title">Three spaces. One curious you.</h2>
+      <p>Lit-up items work today. Items drawn as blueprints are still being built.</p>
+    </div>
+
+    <div class="spaces">
+      <article class="space" id="watch" data-accent="mint" style="--accent:var(--mint)">
+        <div class="space-head">
+          <span class="space-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="13" rx="4"/><path d="M10.5 9.2v5.6l4.6-2.8z" class="fill"/><path d="M8 21h8"/></svg></span>
+          <h3>Watch &amp; Enjoy</h3>
+        </div>
+        <p class="space-text">AI and robot guides from Mino AI News. Switch the mood with Jamie’s Jazz Rooms.</p>
+        <ul class="rows">
+          <li><a class="row" href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener"><span class="row-text"><b>Mino AI News</b><small>AI and robots on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
+          <li><a class="row" href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener"><span class="row-text"><b>Jamie’s Jazz Rooms</b><small>Jazz and bossa nova on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
+          <li><a class="row" href="https://www.youtube.com/watch?v=zZaZsq8hqIM" target="_blank" rel="noopener"><span class="row-text"><b>Christmas Jazz Around the World</b><small>Our full Christmas film</small></span><span class="pill pill-live">Watch</span></a></li>
+          <li><a class="row" href="/games/XmasTnC/" data-giveaway><span class="row-text"><b>Christmas giveaway</b><small>Comment on the film to enter</small></span><span class="pill pill-live" data-giveaway-pill>Open to 10 Dec</span></a></li>
+        </ul>
+      </article>
+
+      <article class="space" id="learn" data-accent="lilac" style="--accent:var(--lilac)">
+        <div class="space-head">
+          <span class="space-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M6 10.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/><path d="M21 8v6"/></svg></span>
+          <h3>Learn &amp; Try</h3>
+        </div>
+        <p class="space-text">Make AI part of everyday life, with practical lessons, playful experiments and new skills.</p>
+        <ul class="rows">
+          <li><a class="row row-plan" href="#bench-learn"><span class="row-text"><b>Everyday AI lessons</b><small>Courses for beginners and groups</small></span><span class="pill pill-plan">Planned</span></a></li>
+          <li><div class="row row-plan"><span class="row-text"><b>Mino Boxing</b><small>A free robot boxing game for your phone</small></span><span class="pill pill-build">Coming soon</span></div></li>
+          <li><a class="row row-plan" href="#bench-join"><span class="row-text"><b>Course waiting list</b><small>Sign-up isn’t connected yet</small></span><span class="pill pill-off">Not connected</span></a></li>
+        </ul>
+      </article>
+
+      <article class="space" id="discover" data-accent="amber" style="--accent:var(--amber)">
+        <div class="space-head">
+          <span class="space-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/><path d="M8.5 11h5M11 8.5v5"/></svg></span>
+          <h3>Discover &amp; Shop</h3>
+        </div>
+        <p class="space-text">Good, fun, exciting finds: robots, mobile phone parts and imported discoveries.</p>
+        <ul class="rows">
+          <li><a class="row" href="/robots/"><span class="row-text"><b>Robot buying guide</b><small>Real prices and where each robot ships</small></span><span class="pill pill-live">Live</span></a></li>
+          <li><a class="row row-plan" href="#bench-shop"><span class="row-text"><b>Jaemi Shop</b><small>Nothing is for sale yet</small></span><span class="pill pill-build">In development</span></a></li>
+          <li><a class="row row-plan" href="#bench-join"><span class="row-text"><b>Tell me when it lands</b><small>Restock and new-find alerts</small></span><span class="pill pill-off">Not connected</span></a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="channels" data-accent="mint" aria-labelledby="channels-title">
+    <div class="section-head">
+      <h2 id="channels-title">Three channels. Find your frequency.</h2>
+      <p>Pick the one that suits your mood today.</p>
+    </div>
+    <div class="channels">
+      <article class="channel" style="--accent:var(--mint)">
+        <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <h3>Mino AI News</h3>
+        <p>AI discoveries, robots worth knowing about and your robot buying guide.</p>
+        <div class="channel-actions">
+          <a class="btn btn-small btn-primary" href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener">Watch on YouTube</a>
+          <a class="btn btn-small btn-ghost" href="https://www.youtube.com/@MinoAINews?sub_confirmation=1" target="_blank" rel="noopener">Subscribe</a>
+        </div>
+      </article>
+      <article class="channel" style="--accent:var(--amber)">
+        <div class="wave wave-slow" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <h3>Jamie’s Jazz Rooms</h3>
+        <p>Jazz, bossa nova and café moods for slowing down and tuning in.</p>
+        <div class="channel-actions">
+          <a class="btn btn-small btn-primary" href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener">Watch on YouTube</a>
+          <a class="btn btn-small btn-ghost" href="https://www.youtube.com/@JamiesJazzRooms?sub_confirmation=1" target="_blank" rel="noopener">Subscribe</a>
+        </div>
+      </article>
+      <article class="channel channel-plan" style="--accent:var(--lilac)">
+        <div class="wave wave-flat" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <h3>Channel three</h3>
+        <p>A frequency we’re saving for something new. Name and link still to add.</p>
+        <div class="channel-actions"><span class="pill pill-plan">Coming soon</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section bench" id="workbench" data-accent="lilac" aria-labelledby="bench-title">
+    <div class="section-head">
+      <h2 id="bench-title">On the workbench</h2>
+      <p>These parts of Jaemi Space are drawn up but not switched on. Nothing here takes payments, sign-ups or personal details yet.</p>
+    </div>
+
+    <div class="bench-grid">
+      <div class="diag" role="group" aria-labelledby="diag-title">
+        <p class="diag-title" id="diag-title">System check</p>
+        <ul class="diag-list">
+          <li data-state="on"><span class="led"></span><span>YouTube channels</span><b>2 linked</b></li>
+          <li data-state="on"><span class="led"></span><span>Robot buying guide</span><b>Live</b></li>
+          <li data-state="on" data-giveaway-diag><span class="led"></span><span>Christmas giveaway</span><b>Open</b></li>
+          <li data-state="build"><span class="led"></span><span>Channel three</span><b>To add</b></li>
+          <li data-state="build"><span class="led"></span><span>Jaemi Shop</span><b>Building</b></li>
+          <li data-state="build"><span class="led"></span><span>Learning space</span><b>Planned</b></li>
+          <li data-state="off"><span class="led"></span><span>Sign-ups (HubSpot)</span><b>Off</b></li>
+          <li data-state="off"><span class="led"></span><span>Instagram and TikTok</span><b>Off</b></li>
+        </ul>
+      </div>
+
+      <article class="blueprint" id="bench-shop" style="--accent:var(--amber)">
+        <div class="bp-art" aria-hidden="true">
+          <svg viewBox="0 0 240 110"><rect x="8" y="14" width="64" height="80" rx="10"/><rect x="88" y="14" width="64" height="80" rx="10"/><rect x="168" y="14" width="64" height="80" rx="10"/><path d="M22 74h36M102 74h36M182 74h36M22 84h20M102 84h20M182 84h20"/><circle cx="40" cy="42" r="14"/><path d="M106 52l14-18 14 18z"/><rect x="186" y="30" width="28" height="28" rx="6"/></svg>
+        </div>
+        <h3>Jaemi Shop</h3>
+        <p>Robots, mobile phone parts and imported finds, with honest descriptions and UK delivery details.</p>
+        <p class="bp-status"><span class="pill pill-build">In development</span><span>Checkout not connected</span></p>
+      </article>
+
+      <article class="blueprint" id="bench-learn" style="--accent:var(--lilac)">
+        <div class="bp-art" aria-hidden="true">
+          <svg viewBox="0 0 240 110"><rect x="8" y="10" width="140" height="90" rx="10"/><path d="M68 40v30l24-15z"/><path d="M168 22h64M168 42h64M168 62h44M168 82h56"/><circle cx="160" cy="22" r="3"/><circle cx="160" cy="42" r="3"/><circle cx="160" cy="62" r="3"/><circle cx="160" cy="82" r="3"/></svg>
+        </div>
+        <h3>Learning space</h3>
+        <p>Short, friendly lessons that make AI useful at home and at work, for individuals and groups.</p>
+        <p class="bp-status"><span class="pill pill-plan">Planned</span><span>No courses open yet</span></p>
+      </article>
+
+      <article class="blueprint" id="bench-join" style="--accent:var(--mint)">
+        <div class="bp-art" aria-hidden="true">
+          <svg viewBox="0 0 240 110"><rect x="8" y="10" width="224" height="26" rx="8"/><rect x="8" y="48" width="64" height="18" rx="9"/><rect x="80" y="48" width="70" height="18" rx="9"/><rect x="158" y="48" width="74" height="18" rx="9"/><rect x="8" y="80" width="96" height="24" rx="12"/></svg>
+        </div>
+        <h3>Join Jaemi Space</h3>
+        <p>Choose what you’d like to hear about: robots, AI learning, jazz or new finds. Only what you pick, nothing else.</p>
+        <div class="signup-slot" id="hubspot-signup" data-hubspot-slot="join">
+          <p class="bp-status"><span class="pill pill-off">Not connected</span><span>Sign-up opens when HubSpot is linked</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section closing" data-accent="mint" aria-labelledby="closing-title">
+    <h2 id="closing-title">More wonder. Less “where do I start?”</h2>
+    <p>Jaemi brings your curiosity about AI and robots together with the things that make life enjoyable. Watch, learn and discover. There’s more than one way into the future.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <span class="brand-word"><b>jaemi</b> space</span>
+      <span>A space for the real fun in life.</span>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/robots/">Robot buying guide</a>
+      <a href="/games/XmasTnC/">Giveaway rules</a>
+      <a href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener">Mino AI News</a>
+      <a href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener">Jamie’s Jazz Rooms</a>
+    </nav>
+    <div class="foot-end">
+      <span>© 2026 Jaemi Space, jaemi.uk. The robot is an original illustration, not a product for sale.</span>
+      <button class="motion-toggle" type="button" id="motion-toggle" aria-pressed="false">Pause motion</button>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
