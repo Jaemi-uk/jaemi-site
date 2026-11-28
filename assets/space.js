@@ -24,7 +24,7 @@ const JAEMI_SETTINGS = {
     jazz: "https://www.youtube.com/@JamiesJazzRooms",
     film: "https://www.youtube.com/watch?v=zZaZsq8hqIM",
     giveaway: "/games/XmasTnC/",
-    cat: "" // Clocked Out Cat: add the channel link here when it's ready
+    cat: "https://www.youtube.com/@ClockedOutCats"
   }
 };
 
@@ -230,12 +230,12 @@ const JAEMI_SETTINGS = {
   };
 
   // Basic mode: a short list of answers, checked in order.
-  const soonList = "Coming soon: Jaemi Shop, everyday AI lessons, the Clocked Out Cat channel link, Mino Boxing, sign-ups for updates, and my full AI brain.";
+  const soonList = "Coming soon: Jaemi Shop, everyday AI lessons, Mino Boxing, sign-ups for updates, Instagram and TikTok, and my full AI brain.";
   const brain = [
     [/shop|store|order|deliver|phone part|parts|checkout|商店|網店|訂購/i, () => ["Jaemi Shop is coming soon: robots, mobile phone parts and imported finds. Nothing is for sale yet. Until then, the robot buying guide shows robots you can buy elsewhere.", [["Robot buying guide", L.robots]]]],
     [/robot|humanoid|unitree|buy|price|cost|機械人|機器人|買/i, () => ["The robot buying guide lists robots you can actually buy, with real prices and where each one ships.", [["Open the guide", L.robots], ["Mino AI News", L.mino]]]],
     [/jazz|music|relax|chill|bossa|cafe|café|study music|爵士|音樂/i, () => ["Jamie’s Jazz Rooms has jazz, bossa nova and café moods for slowing down.", [["Jamie’s Jazz Rooms", L.jazz], ["Christmas film", L.film]]]],
-    [/\bcat\b|cats|clocked|mino cat|貓/i, () => [L.cat ? "Clocked Out Cat is our cat channel, starring Mino Cat." : "Clocked Out Cat is our cat channel, starring Mino Cat. Its link is coming soon.", L.cat ? [["Clocked Out Cat", L.cat]] : []]],
+    [/\bcat\b|cats|clocked|milo|貓/i, () => ["Clocked Out Cats is our cat channel: human problems, cat attitude. Short animated comedy starring Milo the cat.", [["Clocked Out Cats", L.cat]]]],
     [/giveaway|christmas|xmas|prize|win|聖誕|抽獎/i, () => [giveawayOpen ? "The Christmas giveaway is open until 10 December 2026. Comment on our Christmas film to enter; the rules page has the details." : "The Christmas giveaway has closed. The rules page has the details.", [["Giveaway rules", L.giveaway], ["Christmas film", L.film]]]],
     [/\bai\b|news|tech|mino|gadget|人工智能|新聞/i, () => ["Mino AI News covers AI discoveries and robots worth knowing about.", [["Mino AI News", L.mino]]]],
     [/learn|course|lesson|class|teach|study|school|課程|學/i, () => ["Everyday AI lessons are coming soon, for individuals and groups. No courses are open yet.", [["See the plans", "#bench-learn"]]]],
@@ -245,11 +245,11 @@ const JAEMI_SETTINGS = {
     [/who are you|what are you|are you (a )?(real|human|person|ai|bot)|你是誰|你係邊個/i, () => ["I’m the Jaemi Space robot, a friendly host. I’m not a person, and right now I’m in basic mode: I answer from a short list. My full AI brain is coming soon.", []]],
     [/contact|human|person|help|support|聯絡|幫/i, () => ["A contact option is coming soon. For now, the best way to reach us is a comment on our YouTube videos.", [["Mino AI News", L.mino], ["Jamie’s Jazz Rooms", L.jazz]]]],
     [/thank|cheers|\bta\b|謝|多謝|唔該/i, () => ["Any time. Beep boop.", []]],
-    [/^(hi|hello|hey|yo|hiya|morning|你好|哈囉|hi there)\b/i, () => ["Hi! I can show you robots you can buy, jazz to relax to, AI news, and what’s coming soon. What are you curious about?", []]]
+    [/^(hi|hello|hey|yo|hiya|morning|你好|哈囉|hi there)\b/i, () => ["Hi! I can show you robots you can buy, jazz to relax to, AI news, cat comedy and what’s coming soon. What are you curious about?", []]]
   ];
   const basicReply = (text) => {
     for (const [re, fn] of brain) if (re.test(text)) return fn();
-    return ["My full AI brain is coming soon, so I only know a few things right now. Try asking about robots, jazz, AI news, the cat channel or what’s coming soon.", []];
+    return ["My full AI brain is coming soon, so I only know a few things right now. Try asking about robots, jazz, AI news, our cat channel or what’s coming soon.", []];
   };
 
   const ep = JAEMI_SETTINGS.chat.endpoint;
@@ -283,7 +283,7 @@ const JAEMI_SETTINGS = {
     if (dock) dock.hidden = true;
     if (!greeted) {
       greeted = true;
-      addMsg("bot", `${hello} I’m the Jaemi Space robot. I can show you robots you can buy, jazz to relax to, AI news and what’s coming soon. What are you curious about?`);
+      addMsg("bot", `${hello} I’m the Jaemi Space robot. I can show you robots you can buy, jazz to relax to, AI news, cat comedy and what’s coming soon. What are you curious about?`);
     }
     if (moving() && chat.animate) chat.animate([{ transform: "translateY(24px)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 260, easing: "cubic-bezier(.3,1.3,.5,1)" });
     if (matchMedia("(pointer: fine)").matches) input.focus(); else $("#chat-close").focus();
@@ -305,10 +305,30 @@ const JAEMI_SETTINGS = {
   const chatBtn = $("#bot-chat");
   if (chatBtn) { chatBtn.hidden = false; chatBtn.addEventListener("click", () => openChat(chatBtn)); }
   if (dock) dock.addEventListener("click", () => openChat(dock));
+  $("#menu-chat")?.addEventListener("click", () => { setMenu(false); openChat($("#menu-btn")); });
   $("#chat-close")?.addEventListener("click", closeChat);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeChat(); });
   form?.addEventListener("submit", (e) => { e.preventDefault(); const v = input.value; input.value = ""; ask(v); });
   document.querySelectorAll("#chat-chips [data-ask]").forEach((b) => b.addEventListener("click", () => ask(b.dataset.ask)));
+
+
+  /* ---------- Menu (phones and tablets) ---------- */
+  const menuBtn = $("#menu-btn"), menu = $("#menu");
+  const setMenu = (open) => {
+    if (!menu || !menuBtn) return;
+    menu.hidden = !open;
+    menuBtn.setAttribute("aria-expanded", String(open));
+    menuBtn.querySelector(".menu-word").textContent = open ? "Close" : "Menu";
+    root.classList.toggle("menu-open", open);
+    if (open) {
+      if (moving() && menu.animate) menu.animate([{ opacity: 0, transform: "translateY(-10px)" }, { opacity: 1, transform: "none" }], { duration: 220, easing: "ease-out" });
+      menu.querySelector("a")?.focus({ preventScroll: true });
+    }
+  };
+  menuBtn?.addEventListener("click", () => setMenu(menu.hidden));
+  menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menu && !menu.hidden) { setMenu(false); menuBtn.focus(); } });
+  matchMedia("(min-width: 900px)").addEventListener?.("change", (e) => { if (e.matches) setMenu(false); });
 
   /* ---------- System check lights up once when you reach it ---------- */
   const diag = $(".diag");

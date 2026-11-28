@@ -34,13 +34,44 @@
       </svg>
       <span class="brand-word"><b>jaemi</b> space</span>
     </a>
-    <nav aria-label="Main">
+    <nav class="nav-inline" aria-label="Main">
       <a href="#watch">Watch</a>
       <a href="#learn">Learn</a>
       <a href="#discover">Discover</a>
+      <a href="#channels">Channels</a>
+      <a href="/robots/">Robot guide</a>
     </nav>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="menu-word">Menu</span>
+    </button>
   </div>
 </header>
+
+<div class="menu" id="menu" hidden>
+  <div class="menu-inner">
+    <p class="menu-group">Three spaces</p>
+    <ul class="menu-spaces">
+      <li><a href="#watch" style="--accent:var(--mint)"><span class="menu-dot"></span><span><b>Watch &amp; Enjoy</b><small>Our three YouTube channels</small></span></a></li>
+      <li><a href="#learn" style="--accent:var(--lilac)"><span class="menu-dot"></span><span><b>Learn &amp; Try</b><small>AI lessons and games, coming soon</small></span></a></li>
+      <li><a href="#discover" style="--accent:var(--amber)"><span class="menu-dot"></span><span><b>Discover &amp; Shop</b><small>Robot guide now, shop coming soon</small></span></a></li>
+    </ul>
+    <p class="menu-group">Explore</p>
+    <ul class="menu-list">
+      <li><a href="/robots/"><span>Robot buying guide</span><span class="pill pill-live">Live</span></a></li>
+      <li><a href="#channels"><span>Channels</span><span class="pill pill-live">Live</span></a></li>
+      <li><a href="/games/XmasTnC/" data-giveaway><span>Christmas giveaway</span><span class="pill pill-live" data-giveaway-pill>Open</span></a></li>
+      <li><a href="#workbench"><span>Shop and lessons</span><span class="pill pill-soon">Coming soon</span></a></li>
+    </ul>
+    <button class="btn btn-primary menu-chat" type="button" id="menu-chat"><span class="dot" aria-hidden="true"></span>Chat with the robot</button>
+    <p class="menu-group">On YouTube</p>
+    <div class="menu-yt">
+      <a href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener">Mino AI News</a>
+      <a href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener">Jamie’s Jazz Rooms</a>
+      <a href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener">Clocked Out Cats</a>
+    </div>
+  </div>
+</div>
 
 <main>
   <section class="hero" data-accent="mint" aria-labelledby="hero-title">
@@ -152,10 +183,11 @@
           <span class="space-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="13" rx="4"/><path d="M10.5 9.2v5.6l4.6-2.8z" class="fill"/><path d="M8 21h8"/></svg></span>
           <h3>Watch &amp; Enjoy</h3>
         </div>
-        <p class="space-text">AI and robot guides from Mino AI News. Switch the mood with Jamie’s Jazz Rooms.</p>
+        <p class="space-text">AI and robot guides from Mino AI News, calm moods from Jamie’s Jazz Rooms and cat comedy from Clocked Out Cats.</p>
         <ul class="rows">
           <li><a class="row" href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener"><span class="row-text"><b>Mino AI News</b><small>AI and robots on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
           <li><a class="row" href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener"><span class="row-text"><b>Jamie’s Jazz Rooms</b><small>Jazz and bossa nova on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
+          <li><a class="row" href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener"><span class="row-text"><b>Clocked Out Cats</b><small>Animated cat comedy on YouTube</small></span><span class="pill pill-live">Live</span></a></li>
           <li><a class="row" href="https://www.youtube.com/watch?v=zZaZsq8hqIM" target="_blank" rel="noopener"><span class="row-text"><b>Christmas Jazz Around the World</b><small>Our full Christmas film</small></span><span class="pill pill-live">Watch</span></a></li>
           <li><a class="row" href="/games/XmasTnC/" data-giveaway><span class="row-text"><b>Christmas giveaway</b><small>Comment on the film to enter</small></span><span class="pill pill-live" data-giveaway-pill>Open to 10 Dec</span></a></li>
         </ul>
@@ -213,11 +245,14 @@
           <a class="btn btn-small btn-ghost" href="https://www.youtube.com/@JamiesJazzRooms?sub_confirmation=1" target="_blank" rel="noopener">Subscribe</a>
         </div>
       </article>
-      <article class="channel channel-plan" style="--accent:var(--lilac)">
+      <article class="channel" style="--accent:var(--lilac)">
         <svg class="cat" viewBox="0 0 64 40" aria-hidden="true"><path d="M12 36C12 23 20 17 32 17s20 6 20 19z"/><path d="M16 23l-2-14 11 8M48 23l2-14-11 8"/><path d="M20 28q4 3 8 0M36 28q4 3 8 0M31 32h2"/><path d="M54 4h6l-6 6h6"/></svg>
-        <h3>Clocked Out Cat</h3>
-        <p>Our cat channel, starring Mino Cat. For when you’ve clocked out for the day.</p>
-        <div class="channel-actions"><span class="pill pill-soon">Coming soon</span><span class="soon-note">Link coming soon</span></div>
+        <h3>Clocked Out Cats</h3>
+        <p>Human problems, cat attitude. Short animated comedy starring Milo the cat.</p>
+        <div class="channel-actions">
+          <a class="btn btn-small btn-primary" href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener">Watch on YouTube</a>
+          <a class="btn btn-small btn-ghost" href="https://www.youtube.com/@ClockedOutCats?sub_confirmation=1" target="_blank" rel="noopener">Subscribe</a>
+        </div>
       </article>
     </div>
   </section>
@@ -232,11 +267,10 @@
       <div class="diag" role="group" aria-labelledby="diag-title">
         <p class="diag-title" id="diag-title">System check</p>
         <ul class="diag-list">
-          <li data-state="on"><span class="led"></span><span>YouTube channels</span><b>2 linked</b></li>
+          <li data-state="on"><span class="led"></span><span>YouTube channels</span><b>3 linked</b></li>
           <li data-state="on"><span class="led"></span><span>Robot buying guide</span><b>Live</b></li>
           <li data-state="on" data-giveaway-diag><span class="led"></span><span>Christmas giveaway</span><b>Open</b></li>
           <li data-state="on" data-chat-diag><span class="led"></span><span>Robot chat</span><b>Basic</b></li>
-          <li data-state="soon"><span class="led"></span><span>Clocked Out Cat</span><b>Soon</b></li>
           <li data-state="soon"><span class="led"></span><span>Jaemi Shop</span><b>Soon</b></li>
           <li data-state="soon"><span class="led"></span><span>Learning space</span><b>Soon</b></li>
           <li data-state="soon" data-signup-diag><span class="led"></span><span>Sign-ups</span><b>Soon</b></li>
@@ -330,6 +364,7 @@
       <a href="/games/XmasTnC/">Giveaway rules</a>
       <a href="https://www.youtube.com/@MinoAINews" target="_blank" rel="noopener">Mino AI News</a>
       <a href="https://www.youtube.com/@JamiesJazzRooms" target="_blank" rel="noopener">Jamie’s Jazz Rooms</a>
+      <a href="https://www.youtube.com/@ClockedOutCats" target="_blank" rel="noopener">Clocked Out Cats</a>
     </nav>
     <div class="foot-end">
       <span>© 2026 Jaemi Space, jaemi.uk. All rights reserved. The robot is an original illustration, not a product for sale. This page uses no tracking cookies.</span>
